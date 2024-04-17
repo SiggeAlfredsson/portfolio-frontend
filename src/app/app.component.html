@@ -1,12 +1,49 @@
 <div class="all-container">
   <mat-toolbar class="toolbar" color="primary">
     <div class="toolbar-content">
-      <h1 routerLink="/home">Sigge's Coding Club</h1>
-      <!-- Add routerLink here -->
-
+      <h1>Sigge's Coding Club</h1>
       <span class="example-spacer"></span>
+      <button mat-icon-button routerLink="/home" aria-label="Home">
+        <mat-icon>home</mat-icon>
+      </button>
+      <button mat-button routerLink="/find-friends">
+        <mat-icon>group</mat-icon>
+        Find Friends
+      </button>
+      <div
+        *ngIf="isLoggedIn && username; else notLoggedIn"
+        class="user-container"
+      >
+        <button
+          mat-button
+          (click)="goToUserProfile(username)"
+          style="cursor: pointer"
+        >
+          {{ username }}
+        </button>
+        <button mat-button color="warn" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          Sign out
+        </button>
+      </div>
+      <ng-template #notLoggedIn>
+        <button mat-button (click)="login()">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+        <button mat-button (click)="register()">
+          <mat-icon>person_add</mat-icon>
+          Register
+        </button>
+      </ng-template>
+    </div>
+  </mat-toolbar>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 
-      <div class="theme-toggle-container">
+<!-- <div class="theme-toggle-container">
         <mat-icon class="light-icon">light_mode</mat-icon>
         <mat-slide-toggle
           color="primary"
@@ -15,42 +52,4 @@
         >
         </mat-slide-toggle>
         <mat-icon class="dark-icon">dark_mode</mat-icon>
-      </div>
-
-      <button mat-flat-button color="primary" routerLink="/find-friends">
-        Find Friends
-      </button>
-      <!-- Add this button for navigation -->
-
-      <div
-        *ngIf="isLoggedIn && username; else notLoggedIn"
-        class="user-container"
-      >
-        <h4
-          class="email"
-          (click)="goToUserProfile(username)"
-          style="cursor: pointer"
-        >
-          {{ username }}
-        </h4>
-        <!-- Make username clickable -->
-        <h4 class="divider">|</h4>
-        <button mat-flat-button color="warn" class="logout" (click)="logout()">
-          Sign out
-        </button>
-      </div>
-
-      <ng-template #notLoggedIn>
-        <button mat-flat-button color="primary" (click)="login()">Login</button>
-        <h4 class="divider">|</h4>
-        <button mat-flat-button color="primary" (click)="register()">
-          Register
-        </button>
-      </ng-template>
-    </div>
-  </mat-toolbar>
-
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+      </div> -->
