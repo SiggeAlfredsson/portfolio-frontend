@@ -21,9 +21,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<boolean> {
+  login(username: string, password: string): Observable<boolean> {
     const loginDto = {
-      email: email,
+      username: username,
       password: password,
     };
   
@@ -31,7 +31,7 @@ export class AuthService {
       
       map((token: { token: string; }) => {
         if (token) {
-          localStorage.setItem('email', email);
+          localStorage.setItem('username', username);
           localStorage.setItem('token', token.token);
           this.isAuthenticated = true;
           window.location.href = '/';
@@ -55,14 +55,14 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('email');
+    localStorage.removeItem('username');
     localStorage.removeItem('token');
     this.isAuthenticated = false;
   }
 
-  register(email: string, password: string): Observable<any> {
+  register(username: string, password: string): Observable<any> {
     const registerDto = {
-      email: email,
+      username: username,
       password: password
     };
   

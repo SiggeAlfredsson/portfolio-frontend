@@ -19,20 +19,22 @@ export class RegisterComponent {
     private _snackBar: MatSnackBar
   ) {}
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  username = new FormControl('', [Validators.required, Validators.minLength(4)]);
 
   getErrorMessage() {
-    if (this.email.hasError('required')) {
+    if (this.username.hasError('required')) {
       return 'You must enter a value';
+    } else if (this.username.hasError('minLength')) {
+      return 'Username must be at least 4 characters';
     }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+    return '';
   }
 
   register() {
-    const emailValue = this.email.value as string;
+    const usernameValue = this.username.value as string;
 
-    this.authService.register(emailValue, this.password).subscribe((response) => {
+    this.authService.register(usernameValue, this.password).subscribe((response) => {
       if (response) {
         this._snackBar.open('Registration successful', 'Close', {
           duration: 3000

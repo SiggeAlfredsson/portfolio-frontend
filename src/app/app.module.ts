@@ -23,6 +23,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './core/pages/home/home.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
+import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {MatDividerModule} from '@angular/material/divider';
     RegisterComponent,
     LoginComponent,
     HomeComponent,
+    UserProfileComponent,
+    DiscoverUsersComponent,
 
   ],
   imports: [

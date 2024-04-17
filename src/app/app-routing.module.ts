@@ -6,6 +6,8 @@ import { LoginComponent } from './core/pages/auth/login/login.component';
 import { RegisterComponent } from './core/pages/auth/register/register.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './core/pages/home/home.component';
+import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
+import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
 
 const routes: Routes = [
 
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard]},
   { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard]},
   { path: 'home', title: "SIGGEBIG - Home", component: HomeComponent},
+  { path: 'user/:username', title: "User Page", component: UserProfileComponent},
+  { path: 'find-friends', title: "Find Friends", component: DiscoverUsersComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent},
 

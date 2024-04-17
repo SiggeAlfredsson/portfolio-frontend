@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +15,15 @@ export class AppComponent {
   isLoggedIn: boolean = false;
   //check on init is fi
 
-  email: string | null = null;
+  username: string | null = null;
 
   constructor(
     private authService: AuthService,
+    private router: Router,
     public themeService: ThemeService,
   ) {
     this.isLoggedIn = this.authService.isAuth();
-    this.email = localStorage.getItem('email');
+    this.username = localStorage.getItem('username');
   }
 
   login() {
@@ -39,6 +41,10 @@ export class AppComponent {
 
   onToggleChange(): void {
     this.themeService.toggleDarkMode();
+  }
+
+  goToUserProfile(username: string) {
+    this.router.navigate(['/user', username]);
   }
 
 }

@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   hide = true;
@@ -19,28 +19,28 @@ export class LoginComponent {
     private _snackBar: MatSnackBar
   ) {}
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  username = new FormControl('', [Validators.required]);
 
   getErrorMessage() {
-    if (this.email.hasError('required')) {
+    if (this.username.hasError('required')) {
       return 'You must enter a value';
     }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+    return '';
   }
 
   signIn() {
-    const emailValue = this.email.value as string;
+    const usernameValue = this.username.value as string;
   
-    this.authService.login(emailValue, this.password).subscribe((loginSuccess) => {
+    this.authService.login(usernameValue, this.password).subscribe((loginSuccess) => {
       if (loginSuccess) {
-        setTimeout(() => { // so that the auth is updated and sidenav is shown, 2 sec should be fine
+        setTimeout(() => {
           this.router.navigate(['/home']);
-        }, 20000);
+        }, 2000);
       } else {
         this.password = '';
   
-        this._snackBar.open('Invalid email or password', 'Close', {
+        this._snackBar.open('Invalid username or password', 'Close', {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-warn'],
         });

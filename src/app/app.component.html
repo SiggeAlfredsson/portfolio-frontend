@@ -1,6 +1,9 @@
 <div class="all-container">
   <mat-toolbar class="toolbar" color="primary">
     <div class="toolbar-content">
+      <h1 routerLink="/home">Sigge's Coding Club</h1>
+      <!-- Add routerLink here -->
+
       <span class="example-spacer"></span>
 
       <div class="theme-toggle-container">
@@ -14,8 +17,23 @@
         <mat-icon class="dark-icon">dark_mode</mat-icon>
       </div>
 
-      <div *ngIf="isLoggedIn; else notLoggedIn" class="user-container">
-        <h4 class="email">{{ email }}</h4>
+      <button mat-flat-button color="primary" routerLink="/find-friends">
+        Find Friends
+      </button>
+      <!-- Add this button for navigation -->
+
+      <div
+        *ngIf="isLoggedIn && username; else notLoggedIn"
+        class="user-container"
+      >
+        <h4
+          class="email"
+          (click)="goToUserProfile(username)"
+          style="cursor: pointer"
+        >
+          {{ username }}
+        </h4>
+        <!-- Make username clickable -->
         <h4 class="divider">|</h4>
         <button mat-flat-button color="warn" class="logout" (click)="logout()">
           Sign out
