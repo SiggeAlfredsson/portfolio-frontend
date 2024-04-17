@@ -1,0 +1,57 @@
+
+
+.mat-toolbar {
+  background-color: #1976d2;
+  color: white;
+}
+
+.toolbar-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-spacer {
+  flex: 1;
+}
+
+.user-container,
+.not-logged-in {
+  display: flex;
+  align-items: center;
+}
+
+.h4,
+.divider {
+  margin: 0 10px;
+}
+
+button {
+  margin: 0 5px;
+}
+
+.all-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+
+.content {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-container mat-icon{
+  margin: 0 8px;
+}
+
+mat-slide-toggle {
+  margin: 0 8px;
+}

@@ -1,0 +1,88 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, catchError, map, of } from 'rxjs';
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private isAuthenticated = false;
+
+  private authUrl = 'http://localhost:8090/api/auth'
+
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    })
+  };
+
+  constructor(private http: HttpClient) { }
+
+  login(email: string, password: string): Observable<boolean> {
+    const loginDto = {
+      email: email,
+      password: password,
+    };
+  
+    return this.authenticate(loginDto).pipe(
+      
+      map((token: { token: string; }) => {
+        if (token) {
+          localStorage.setItem('email', email);
+          localStorage.setItem('token', token.token);
+          this.isAuthenticated = true;
+          window.location.href = '/';
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      catchError((error) => {
+        console.error('Authentication error:', error);
+        return of(false); // Return an observable with a value of false
+      })
+    );
+  }
+
+  authenticate(loginDto: any): Observable<any>{ // backend returns object with token: <token>
+    const url = `${this.authUrl}/login`
+    return this.http
+    .post<string>(url, loginDto, this.httpOptions)
+    .pipe(catchError(this.handleError<string>("login")));
+  }
+
+  logout() {
+    localStorage.removeItem('email');
+    localStorage.removeItem('token');
+    this.isAuthenticated = false;
+  }
+
+  register(email: string, password: string): Observable<any> {
+    const registerDto = {
+      email: email,
+      password: password
+    };
+  
+    return this.http.post<any>(`${this.authUrl}/register`, registerDto, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('register')));
+  }
+
+  isAuth() {
+    return localStorage.getItem('token') !== null;
+    // for testing
+    // return this.isAuthenticated;
+  }
+
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+
+      return of(result as T);
+    };
+  }
+
+}

@@ -1,0 +1,24 @@
+<div class="container">
+    <form class="form" (ngSubmit)="register()">
+      <h2>Register</h2>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="email" placeholder="Enter your email">
+        <mat-error *ngIf="email.errors">
+          {{ getErrorMessage() }}
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="password" name="password" placeholder="Enter your password">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!email.valid">Register</button>
+    </form>
+  </div>
+  
