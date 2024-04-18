@@ -14,14 +14,15 @@ const routes: Routes = [
 
   /*
 
-  Maybe you should not need to be logged in to see all
+  Auth guard is never used? Should it be?
 
   */
 
-  // make into childer here for auth and no auth
-  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard]},
-  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard]},
-  { path: 'home', title: "SIGGEBIG - Home", component: HomeComponent},
+  
+
+  { path: 'login',title: "Login", component: LoginComponent, canActivate: [NoAuthGuard]},
+  { path: 'register',title: "Register", component: RegisterComponent, canActivate: [NoAuthGuard]},
+  { path: 'home', title: "Home", component: HomeComponent},
   { path: 'user/:username', title: "User Page", component: UserProfileComponent},
   { path: 'find-friends', title: "Find Friends", component: DiscoverUsersComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
