@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,41 @@ import { Observable, catchError, of } from 'rxjs';
 export class UserService {
   private url = 'http://localhost:8090/api/users'
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      // 'Content-Type': 'application/json', happends auto
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    })
+  };
+
   constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<any[]> {
     return this.http
       .get<any[]>(this.url)
       .pipe(catchError(this.handleError<any[]>('getUsers', [])));
+  }
+
+  followUser(followId: number): Observable<any> {
+    const url = `${this.url}/follow/${followId}`;
+    console.log(this.httpOptions)
+    return this.http
+      .post(url, null, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('followUser')));
+  }
+
+  unFollowUser(followId: number): Observable<any> {
+    const url = `${this.url}/unfollow/${followId}`;
+    return this.http
+      .delete(url, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('unFollowUser')));
+  }
+
+  getMyFollowings(): Observable<number[]> {
+    const url = `${this.url}/my-followings`;
+    return this.http
+      .get<number[]>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<number[]>('getMyFollowings')));
   }
 
 

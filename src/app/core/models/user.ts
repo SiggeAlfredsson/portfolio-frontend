@@ -5,4 +5,6 @@ export interface User {
     pictureId: number;
     following: User[]; //stackoverflow?
     follwers: User[]; //stackoverflow?
+    isFollowing?: boolean; // Add this line
+
   }

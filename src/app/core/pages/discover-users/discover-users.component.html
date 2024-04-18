@@ -7,7 +7,9 @@
             <img [src]="'http://localhost:8091/api/pictures/' + user.pictureId" alt="user picture" class="user-image">
             <div class="user-info">
                 <h3>{{ user.username }}</h3>
-                <button (click)="$event.stopPropagation(); followUser(user.username)" class="follow-btn">Follow</button>
+                <button *ngIf="loggedInUsername" (click)="$event.stopPropagation(); toggleFollow(user)" class="follow-btn">
+                    {{ user.isFollowing ? 'Unfollow' : 'Follow' }}
+                </button>
             </div>
         </div>
     </div>

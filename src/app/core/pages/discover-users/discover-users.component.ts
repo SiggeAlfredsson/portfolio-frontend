@@ -11,6 +11,8 @@ import { User } from '../../models/user';
 export class DiscoverUsersComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
+  followingIds: number[] = [];
+  loggedInUsername?: string;
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -20,13 +22,37 @@ export class DiscoverUsersComponent implements OnInit {
 
   fetchUsers(): void {
     const loggedInUsername = localStorage.getItem('username');
+    if(loggedInUsername){
+        this.loggedInUsername = loggedInUsername;
+    }
+    if (loggedInUsername) {
+        this.userService.getMyFollowings().subscribe({
+          next: (followingUsers) => {
+            this.followingIds = followingUsers;
+            this.loadAllUsers();
+          },
+          error: (error) => {
+            console.error('Failed to fetch followings:', error);
+          }
+        });
+    } else {
+        this.loadAllUsers();
+    }
+  }
+
+  loadAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (users: User[]) => {
-        this.users = users.filter((user) => user.username !== loggedInUsername);
-        this.filteredUsers = this.users;
+        console.log("Initial fetched users:", users);
+        this.users = users.map(user => ({
+          ...user,
+          isFollowing: this.loggedInUsername ? this.followingIds.includes(user.id) : false
+        }));
+        this.filteredUsers = this.users.filter(user => !this.loggedInUsername || user.username !== this.loggedInUsername);
+        console.log('Processed users:', this.users);
       },
       (error) => {
-        console.error('Failed to fetch users:', error);
+        console.error('Failed to load all users:', error);
       }
     );
   }
@@ -43,8 +69,35 @@ export class DiscoverUsersComponent implements OnInit {
     }
   }
 
-  followUser(username: string): void {
-    console.log('Follow user:', username);
+  toggleFollow(user: User): void {
+    if (!localStorage.getItem('username')) {
+      alert("Please log in to follow users.");
+      return;
+    }
+    if (user.isFollowing) {
+      this.unFollowUser(user.id);
+    } else {
+      this.followUser(user.id);
+    }
+  }
+
+  followUser(followId: number): void {
+    this.userService.followUser(followId).subscribe(() => {
+      this.updateFollowStatus(followId, true);
+    });
+  }
+
+  unFollowUser(followId: number): void {
+    this.userService.unFollowUser(followId).subscribe(() => {
+      this.updateFollowStatus(followId, false);
+    });
+  }
+
+  updateFollowStatus(userId: number, isFollowing: boolean): void {
+    const index = this.filteredUsers.findIndex((user) => user.id === userId);
+    if (index !== -1) {
+      this.filteredUsers[index].isFollowing = isFollowing;
+    }
   }
 
   goToUserProfile(username: string): void {
