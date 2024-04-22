@@ -1,1 +1,35 @@
-<p>user-profile works!</p>
+<div class="profile" *ngIf="user">
+    <div class="profile-header">
+        <img [src]="'http://localhost:8091/api/pictures/user/' + user.id" alt="user picture" class="profile-picture">
+        <div class="user-info">
+            <h2>{{user.username}}</h2>
+            <button *ngIf="loggedInUsername && loggedInUsername !== user.username" 
+            (click)="$event.stopPropagation(); toggleFollow(user)" 
+            [ngClass]="{'follow-btn': true, 'follow': !user.isFollowing, 'unfollow': user.isFollowing}">
+        {{ user.isFollowing ? 'Unfollow' : 'Follow' }}
+    </button>
+    
+    
+            <p>Last seen: {{user.lastSeen | date: 'short'}}</p>
+            <p>Registered: {{user.registeredAt | date: 'mediumDate'}}</p>
+            <p>Description: {{user.description}}</p>
+        </div>
+    </div>
+    <div class="social-stats">
+        <div>
+            <span>Followers: </span><a (click)="showFollowers()">{{user.followersIds.length}}</a>
+        </div>
+        <div>
+            <span>Following: </span><a (click)="showFollowing()">{{user.followingsIds.length}}</a>
+        </div>
+        <div>
+            <!-- <span>Posts: </span><a (click)="showPosts()">{{user.posts.length}}</a> -->
+        </div>
+    </div>
+    <div class="post-list">
+        <h3>Posts</h3>
+        <ul>
+            <!-- <li *ngFor="let post of user.posts">{{ post.title }}</li> -->
+        </ul>
+    </div>
+</div>

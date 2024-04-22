@@ -18,6 +18,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+
+  getUserByUsername(username: string): Observable<User> {
+    const url = `${this.url}/username/${username}`;
+    return this.http
+      .get<User>(url)
+      .pipe(catchError(this.handleError<User>('getUser')));
+  }
+
   getAllUsers(): Observable<any[]> {
     return this.http
       .get<any[]>(this.url)
@@ -26,7 +34,6 @@ export class UserService {
 
   followUser(followId: number): Observable<any> {
     const url = `${this.url}/follow/${followId}`;
-    console.log(this.httpOptions)
     return this.http
       .post(url, null, this.httpOptions)
       .pipe(catchError(this.handleError<any>('followUser')));

@@ -43,13 +43,11 @@ export class DiscoverUsersComponent implements OnInit {
   loadAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (users: User[]) => {
-        console.log("Initial fetched users:", users);
         this.users = users.map(user => ({
           ...user,
           isFollowing: this.loggedInUsername ? this.followingIds.includes(user.id) : false
         }));
         this.filteredUsers = this.users.filter(user => !this.loggedInUsername || user.username !== this.loggedInUsername);
-        console.log('Processed users:', this.users);
       },
       (error) => {
         console.error('Failed to load all users:', error);

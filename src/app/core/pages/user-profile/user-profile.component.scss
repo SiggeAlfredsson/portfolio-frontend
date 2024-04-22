@@ -1,0 +1,60 @@
+.profile {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    margin-right: 20px;
+}
+
+.user-info h2 {
+    margin-top: 0;
+}
+
+.social-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.social-stats div {
+    text-align: center;
+}
+
+.post-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.post-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.follow-btn {
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.follow {
+    background-color: blue;
+}
+
+.unfollow {
+    background-color: red;
+}

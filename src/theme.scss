@@ -1,1 +1,68 @@
-//did not get this to work now , will check later
+@use '@angular/material' as mat;
+@import './theme.palette.scss';
+
+
+@include mat.core();
+// $theme variable set in active theme-palette.scss
+@include mat.all-component-themes($theme);
+
+$accent: map-get($theme, accent);
+
+
+
+
+  $my-color: #69f0ae;
+// my color should be same as $dark-primary
+
+.dark-theme {
+
+    background-color: grey;
+
+  .list a {
+    color: $my-color !important;
+  }
+
+
+
+
+  .mat-button-toggle.mat-button-toggle-checked {
+    background-color: $my-color !important;
+  }
+
+
+  .modal-title,.label,p,.message-input, input:disabled, select:disabled, .selectedImageSpan  {
+    color: white !important;
+  }
+
+  .message-right {
+    color: black !important;
+    background-color: $my-color !important;
+  }
+
+  .message-left {
+    background-color: rgb(83, 83, 83) !important;
+  }
+
+  .dark-icon {
+    color: $my-color !important;
+
+    opacity: 100% !important;
+  }
+
+  .light-icon {
+    color: $my-color !important;
+
+    opacity: 50%;
+  }
+
+  .hr {
+    border-color: $my-color !important;
+  }
+
+  mat-grid-tile-header {
+    color: black !important;
+    background-color: $my-color !important;
+  }
+
+  @include mat.all-component-themes($dark-theme);
+}
