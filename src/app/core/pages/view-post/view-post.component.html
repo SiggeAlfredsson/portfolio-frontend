@@ -1,0 +1,8 @@
+<mat-card>
+    <h2>{{ post?.title }}</h2>
+    <p>{{ post?.description }}</p>
+    <div *ngFor="let image of images" style="display: inline-block; margin: 10px; cursor: pointer;">
+      <img [src]="image" alt="Post Image" style="width: 100px; height: 100px; object-fit: cover;" (click)="openImageDialog(image)">
+    </div>
+  </mat-card>
+  

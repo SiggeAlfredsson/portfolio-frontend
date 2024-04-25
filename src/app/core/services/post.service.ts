@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,20 @@ export class PostService {
   };
 
   constructor(private http: HttpClient) { }
+
+  getPostById(id: number): Observable<Post> {
+    const url = `${this.url}/${id}`;
+    return this.http
+      .get<Post>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<Post>('getPostById')));
+  }
+
+  getUserPosts(username: string): Observable<Post[]> {
+    return this.http
+      .get<Post[]>(`${this.url}/user/${username}`, this.httpOptions)
+      .pipe(catchError(this.handleError<Post[]>('getPostsByUsername')));
+
+  }
 
   createNewPost(post: Post, photos: File[]): Observable<any> {
     console.log(post)
@@ -36,5 +50,12 @@ export class PostService {
     return this.http.post(this.url, formData, this.httpOptions);
   }
 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+
+      return of(result as T);
+    };
+  }
 
 }

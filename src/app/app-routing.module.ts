@@ -9,6 +9,7 @@ import { HomeComponent } from './core/pages/home/home.component';
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
 import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
 import { CreatePostComponent } from './core/pages/create-post/create-post.component';
+import { ViewPostComponent } from './core/pages/view-post/view-post.component';
 
 const routes: Routes = [
 
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'home', title: "Home", component: HomeComponent},
   { path: 'user/:username', title: "User Page", component: UserProfileComponent},
   { path: 'find-friends', title: "Find Friends", component: DiscoverUsersComponent},
+  { path: 'posts/:postId', title: "View Post", component: ViewPostComponent },
   { path: 'create-post', title: "New Post", component: CreatePostComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent},

@@ -1,8 +1,10 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user';
 import { switchMap } from 'rxjs';
+import { PostService } from '../../services/post.service';
+import { Post } from '../../models/post';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,11 +17,13 @@ export class UserProfileComponent implements OnInit {
 
   followingIds: number[] = [];
   user!: User;
-  // posts: any[] = [];
+  posts: Post[] = [];
 
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute
+    private postService: PostService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -47,9 +51,20 @@ export class UserProfileComponent implements OnInit {
         next: (user) => {
           this.user = user;
           this.user.isFollowing = this.followingIds.includes(user.id);
+          this.loadPosts(user.username);
         },
         error: (error) => console.error('Failed to load user profile:', error),
       });
+  }
+
+  loadPosts(username: string) {
+    this.postService.getUserPosts(username).subscribe(posts => {
+      this.posts = posts;
+    });
+  }
+
+  navigateToPost(postId: number): void {
+    this.router.navigate(['/posts', postId]);
   }
 
   showFollowers(): void {
@@ -68,10 +83,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   toggleFollow(user: User): void {
-    if (!localStorage.getItem('username')) {
-      alert('Please log in to follow users.');
-      return;
-    }
     if (user.isFollowing) {
       this.unFollowUser(user.id);
     } else {

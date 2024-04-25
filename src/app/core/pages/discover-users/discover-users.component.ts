@@ -95,8 +95,14 @@ export class DiscoverUsersComponent implements OnInit {
     const index = this.filteredUsers.findIndex((user) => user.id === userId);
     if (index !== -1) {
       this.filteredUsers[index].isFollowing = isFollowing;
+      if (isFollowing) {
+        this.filteredUsers[index].followersIds.length += 1;
+      } else {
+        this.filteredUsers[index].followersIds.length -= 1;
+      }
     }
   }
+  
 
   goToUserProfile(username: string): void {
     this.router.navigate(['/user', username]);

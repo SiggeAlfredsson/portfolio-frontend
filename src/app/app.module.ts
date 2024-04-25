@@ -27,6 +27,8 @@ import { UserProfileComponent } from './core/pages/user-profile/user-profile.com
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
 import { CreatePostComponent } from './core/pages/create-post/create-post.component';
 import { MatCardModule } from '@angular/material/card';
+import { ViewPostComponent } from './core/pages/view-post/view-post.component';
+import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { MatCardModule } from '@angular/material/card';
     UserProfileComponent,
     DiscoverUsersComponent,
     CreatePostComponent,
+    ViewPostComponent,
+    ImageDialogComponent,
 
   ],
   imports: [

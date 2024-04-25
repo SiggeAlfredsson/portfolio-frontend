@@ -1,6 +1,15 @@
+import { User } from "./user";
+
 export interface Post {
-    title: string;
-    description: string;
-    private: boolean;
-  }
+  id: number;
+  title: string;
+  description: string;
+  private: boolean;
+
+  picturesIds: number[];
   
+  stars: User[],
+  likes: User[],
+  comments: User[],
+
+}

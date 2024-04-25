@@ -9,8 +9,10 @@ export interface User {
     registeredAt: Date;
     lastSeen: Date;
 
-    followersIds: User[]; //stackoverflow?
-    followingsIds: User[]; //stackoverflow?
-    isFollowing?: boolean; // Add this line
+    postsIds: number[],
+
+    followersIds: number[];
+    followingsIds: number[];
+    isFollowing?: boolean;
 
   }
