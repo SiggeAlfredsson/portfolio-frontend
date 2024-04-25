@@ -25,6 +25,8 @@ import { HomeComponent } from './core/pages/home/home.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
+import { CreatePostComponent } from './core/pages/create-post/create-post.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { DiscoverUsersComponent } from './core/pages/discover-users/discover-use
     HomeComponent,
     UserProfileComponent,
     DiscoverUsersComponent,
+    CreatePostComponent,
 
   ],
   imports: [
@@ -55,6 +58,7 @@ import { DiscoverUsersComponent } from './core/pages/discover-users/discover-use
     MatBadgeModule,
     CommonModule,
     MatDividerModule,
+    MatCardModule,
   ],
   providers: [
     provideAnimationsAsync()

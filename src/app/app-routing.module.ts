@@ -8,13 +8,14 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './core/pages/home/home.component';
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
 import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
+import { CreatePostComponent } from './core/pages/create-post/create-post.component';
 
 const routes: Routes = [
 
 
   /*
 
-  Auth guard is never used? Should it be?
+  Auth guard is never used? Should it be? on create post yesss
 
   */
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'home', title: "Home", component: HomeComponent},
   { path: 'user/:username', title: "User Page", component: UserProfileComponent},
   { path: 'find-friends', title: "Find Friends", component: DiscoverUsersComponent},
+  { path: 'create-post', title: "New Post", component: CreatePostComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent},
 
