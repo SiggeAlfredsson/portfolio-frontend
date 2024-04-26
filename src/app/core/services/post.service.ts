@@ -70,9 +70,27 @@ export class PostService {
       .pipe(catchError(this.handleError<any>('addComment')));
   }
 
-  // edit comment
+  // edit comment --- last
 
   // delete comment
+
+  // like post
+  likePost(postId: number):Observable<any> {
+    const url = `${this.url}/${postId}/like`;
+
+    return this.http
+      .post(url, [], this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('like post')));
+  }
+
+  starPost(postId: number):Observable<any> {
+    const url = `${this.url}/${postId}/star`;
+
+    return this.http
+      .post(url, [], this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('star post')));
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

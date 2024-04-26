@@ -92,12 +92,15 @@ export class HomeComponent implements OnInit {
   }
 
   toggleLike(post: Post): void {
-    // Implement like functionality
+    this.postService.likePost(post.id).subscribe(() => {
+
+    })
   }
   
   toggleStar(post: Post): void {
-    // Implement star functionality
-  }
+    this.postService.starPost(post.id).subscribe(() => {
+
+    })  }
   
   openImageDialog(imageSrc: any) {
     console.log(imageSrc)

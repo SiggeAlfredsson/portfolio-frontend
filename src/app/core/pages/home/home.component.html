@@ -1,4 +1,3 @@
-<!-- home.component.html -->
 <div class="post-container">
     <div *ngFor="let post of posts" class="post-card">
       <span><small> {{post.username}}'s Post </small></span>
@@ -8,11 +7,9 @@
       </div>
       <p class="post-description">{{ post.description }}</p>
 
-
-        <div *ngFor="let image of images[post.id]">
-          <img [src]="image" (click)="openImageDialog(image)" alt="Post image">
-        </div>
-      
+      <div *ngFor="let image of images[post.id]">
+        <img [src]="image" (click)="openImageDialog(image)" alt="Post image">
+      </div>
 
       <div class="post-footer">
         <div class="post-interactions">
@@ -31,4 +28,3 @@
       </div>
     </div>
   </div>
-  
