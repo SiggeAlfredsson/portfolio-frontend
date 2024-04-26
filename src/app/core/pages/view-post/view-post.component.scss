@@ -1,47 +1,27 @@
-.mat-card {
-  margin: 20px auto;
-  max-width: 800px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+.post-container {
+  max-width: 600px;
+  margin: auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 
-  &:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-}
-
-.mat-card-content {
-  margin-top: 10px;
-
-  h2 {
-    font-size: 24px;
-    color: #333;
+  img {
+    width: 100%;
+    height: auto;
     margin-bottom: 10px;
   }
 
-  p {
-    font-size: 16px;
-    color: #666;
-    line-height: 1.5;
-  }
-}
-
-img {
-  width: 100%;
-  margin-top: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button {
-  margin-top: 20px;
-}
-
-@media (max-width: 599px) {
-  .mat-card {
-    margin: 10px;
+  button {
+    margin-right: 10px;
   }
 
-  img {
-    margin-top: 10px;
+  .comments-section {
+    margin-top: 20px;
+
+    p {
+      background: #f4f4f4;
+      padding: 8px;
+      border-radius: 4px;
+    }
   }
 }

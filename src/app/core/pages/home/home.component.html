@@ -6,15 +6,17 @@
         <span class="post-date">{{ post.createdAt | date: 'medium' }}</span>
       </div>
       <p class="post-description">{{ post.description }}</p>
-      <div class="post-interactions">
-        <span class="interaction" (click)="toggleLike(post)">
-          <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
-        </span>
-        <span class="interaction" (click)="toggleStar(post)">
-          <mat-icon>star</mat-icon> {{ post.stars.length || 0 }}
-        </span>
-      </div>
+
       <div class="post-footer">
+        <div class="post-interactions">
+            <span class="interaction" (click)="toggleLike(post)">
+              <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
+            </span>
+            <span class="interaction" (click)="toggleStar(post)">
+              <mat-icon>star</mat-icon> {{ post.stars.length || 0 }}
+            </span>
+          </div>
+          <div class="padding"></div>
         <button mat-button (click)="navigateToPost(post.id)">Read More</button>
       </div>
     </div>

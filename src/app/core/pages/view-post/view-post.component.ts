@@ -6,6 +6,7 @@ import { PictureService } from '../../services/picture.service';
 import { PostService } from '../../services/post.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../../dialogs/image-dialog/image-dialog.component';
+import { Post } from '../../models/post';
 
 @Component({
   selector: 'app-view-post',
@@ -15,6 +16,7 @@ import { ImageDialogComponent } from '../../dialogs/image-dialog/image-dialog.co
 export class ViewPostComponent implements OnInit {
   post: any;
   images: SafeUrl[] = [];
+  newCommentText: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -57,5 +59,22 @@ export class ViewPostComponent implements OnInit {
       width: 'auto',
       maxHeight: '90vh'
     });
+}
+
+toggleLike(post: Post): void {
+  // Implement like functionality
+}
+
+toggleStar(post: Post): void {
+  // Implement star functionality
+}
+submitComment(): void {
+  const comment = {
+    // userId: this.userId, 
+    postId: this.post.id,
+    text: this.newCommentText
+  };
+  // Here you should call an API to save the comment
+  this.newCommentText = ''; // Clear the input after submission
 }
 }
