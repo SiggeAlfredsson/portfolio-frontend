@@ -59,11 +59,20 @@ export class PostService {
     photos.forEach(photo => {
       formData.append('files', photo, photo.name);
     });
-
-
-
     return this.http.post(this.url, formData, this.getHttpOptions());
   }
+
+  addComment(postId: number, commentText: string):Observable<any> {
+    const url = `${this.url}/${postId}/comment`;
+
+    return this.http
+      .post(url, commentText, this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('addComment')));
+  }
+
+  // edit comment
+
+  // delete comment
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

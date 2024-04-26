@@ -1,6 +1,7 @@
 <!-- home.component.html -->
 <div class="post-container">
     <div *ngFor="let post of posts" class="post-card">
+      <span><small> {{post.username}}'s Post </small></span>
       <div class="post-header">
         <h2>{{ post.title }}</h2>
         <span class="post-date">{{ post.createdAt | date: 'medium' }}</span>
@@ -15,6 +16,9 @@
 
       <div class="post-footer">
         <div class="post-interactions">
+          <span class="interaction" (click)="navigateToPost(post.id)">
+            <mat-icon>comment</mat-icon><span>{{ post.comments.length }}</span>
+          </span>
             <span class="interaction" (click)="toggleLike(post)">
               <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
             </span>

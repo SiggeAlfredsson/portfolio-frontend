@@ -6,11 +6,12 @@ export interface Post {
   description: string;
   private: boolean;
   createdAt: Date;
+  username: string;
 
   picturesIds: number[];
   
   stars: User[],
   likes: User[],
-  comments: User[],
+  comments: Comment[],
 
 }

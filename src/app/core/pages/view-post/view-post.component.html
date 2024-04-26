@@ -1,5 +1,6 @@
-<div class="post-container">
-  <h1>{{ post.title }}</h1>
+<div class="post-container" *ngIf="post">
+  <span>{{post.username}}'s Post</span>
+  <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
   <p>Created on: {{ post.createdAt | date : "medium" }}</p>
 
@@ -7,18 +8,19 @@
     <img [src]="image" (click)="openImageDialog(image)" alt="Post Image" />
   </div>
 
-  <button (click)="toggleLike(post)">
-    {{ post.likes.includes() ? "Unlike" : "Like" }}
-  </button>
-
-  <button (click)="toggleStar(post)">
-    {{ post.stars.includes() ? "Unstar" : "Star" }}
-  </button>
+  <div class="post-interactions">
+    <span class="interaction" (click)="toggleLike(post)">
+      <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
+    </span>
+    <span class="interaction" (click)="toggleStar(post)">
+      <mat-icon>star</mat-icon> {{ post.stars.length || 0 }}
+    </span>
+  </div>
 
   <div class="comments-section">
     <h3>Comments</h3>
     <div *ngFor="let comment of post.comments">
-      <p>{{ comment.user.name }} says: {{ comment.text }}</p>
+      <p>{{ comment.username }}: {{ comment.text }}</p>
     </div>
   </div>
 

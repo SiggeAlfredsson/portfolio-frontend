@@ -7,6 +7,8 @@ import { PostService } from '../../services/post.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../../dialogs/image-dialog/image-dialog.component';
 import { Post } from '../../models/post';
+import { Comment } from '../../models/comment';
+
 
 @Component({
   selector: 'app-view-post',
@@ -75,6 +77,10 @@ submitComment(): void {
     text: this.newCommentText
   };
   // Here you should call an API to save the comment
+  this.postService.addComment(comment.postId, comment.text).subscribe(() => {
+    
+  })
+
   this.newCommentText = ''; // Clear the input after submission
 }
 }
