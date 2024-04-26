@@ -9,13 +9,19 @@ import { User } from '../models/user';
 export class UserService {
   private url = 'http://localhost:8090/api/users'
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      // 'Content-Type': 'application/json', happends auto
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    })
-  };
+  private getHttpOptions() {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders({
+      // 'Content-Type': 'application/json', happens automatically
+    });
 
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return { headers };
+  }
+  
   constructor(private http: HttpClient) { }
 
 
@@ -35,21 +41,21 @@ export class UserService {
   followUser(followId: number): Observable<any> {
     const url = `${this.url}/follow/${followId}`;
     return this.http
-      .post(url, null, this.httpOptions)
+      .post(url, null, this.getHttpOptions())
       .pipe(catchError(this.handleError<any>('followUser')));
   }
 
   unFollowUser(followId: number): Observable<any> {
     const url = `${this.url}/unfollow/${followId}`;
     return this.http
-      .delete(url, this.httpOptions)
+      .delete(url, this.getHttpOptions())
       .pipe(catchError(this.handleError<any>('unFollowUser')));
   }
 
   getMyFollowings(): Observable<number[]> {
     const url = `${this.url}/my-followings`;
     return this.http
-      .get<number[]>(url, this.httpOptions)
+      .get<number[]>(url, this.getHttpOptions())
       .pipe(catchError(this.handleError<number[]>('getMyFollowings')));
   }
 

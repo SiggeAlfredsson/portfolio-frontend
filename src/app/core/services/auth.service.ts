@@ -12,12 +12,19 @@ export class AuthService {
   private authUrl = 'http://localhost:8090/api/auth'
 
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    })
-  };
+  private getHttpOptions() {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders({
+      // 'Content-Type': 'application/json', happens automatically
+    });
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return { headers };
+  }
+  
 
   constructor(private http: HttpClient) { }
 
@@ -50,7 +57,7 @@ export class AuthService {
   authenticate(loginDto: any): Observable<any>{ // backend returns object with token: <token>
     const url = `${this.authUrl}/login`
     return this.http
-    .post<string>(url, loginDto, this.httpOptions)
+    .post<string>(url, loginDto, this.getHttpOptions()) // why get http options here w/e
     .pipe(catchError(this.handleError<string>("login")));
   }
 
@@ -66,7 +73,7 @@ export class AuthService {
       password: password
     };
   
-    return this.http.post<any>(`${this.authUrl}/register`, registerDto, this.httpOptions)
+    return this.http.post<any>(`${this.authUrl}/register`, registerDto, this.getHttpOptions()) // or here??
       .pipe(catchError(this.handleError<any>('register')));
   }
 

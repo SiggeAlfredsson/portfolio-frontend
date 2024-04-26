@@ -10,25 +10,31 @@ export class PostService {
 
   private url = 'http://localhost:8092/api/posts'
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      // 'Content-Type': 'application/json', happends auto
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    })
-  };
+  private getHttpOptions() {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders({
+      // 'Content-Type': 'application/json', happens automatically
+    });
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return { headers };
+  }
 
   constructor(private http: HttpClient) { }
 
   getPostById(id: number): Observable<Post> {
     const url = `${this.url}/${id}`;
     return this.http
-      .get<Post>(url, this.httpOptions)
+      .get<Post>(url, this.getHttpOptions())
       .pipe(catchError(this.handleError<Post>('getPostById')));
   }
 
   getUserPosts(username: string): Observable<Post[]> {
     return this.http
-      .get<Post[]>(`${this.url}/user/${username}`, this.httpOptions)
+      .get<Post[]>(`${this.url}/user/${username}`, this.getHttpOptions())
       .pipe(catchError(this.handleError<Post[]>('getPostsByUsername')));
 
   }
@@ -47,7 +53,7 @@ export class PostService {
 
 
 
-    return this.http.post(this.url, formData, this.httpOptions);
+    return this.http.post(this.url, formData, this.getHttpOptions());
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

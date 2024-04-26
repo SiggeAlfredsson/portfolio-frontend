@@ -5,6 +5,7 @@ import { User } from '../../models/user';
 import { switchMap } from 'rxjs';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,13 +22,14 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private postService: PostService,
     private route: ActivatedRoute,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUsername = localStorage.getItem('username');
+    this.loggedInUsername = localStorage.getItem('username'); // never used?
 
     this.route.params.subscribe((params) => {
       this.username = params['username'];
@@ -38,8 +40,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   fetchUser() {
-    // Get the followings first and then load the user profile
-    this.userService
+    if (this.authService.isAuth()) {
+      this.userService
       .getMyFollowings()
       .pipe(
         switchMap((followingUsers) => {
@@ -55,6 +57,14 @@ export class UserProfileComponent implements OnInit {
         },
         error: (error) => console.error('Failed to load user profile:', error),
       });
+    } else {
+      this.userService.getUserByUsername(this.username!).subscribe((user) => {
+        this.user = user;
+        this.loadPosts(user.username);
+      })
+    }
+    // Get the followings first and then load the user profile
+
   }
 
   loadPosts(username: string) {
