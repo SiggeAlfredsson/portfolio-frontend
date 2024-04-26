@@ -7,6 +7,12 @@
       </div>
       <p class="post-description">{{ post.description }}</p>
 
+
+        <div *ngFor="let image of images[post.id]">
+          <img [src]="image" (click)="openImageDialog(image)" alt="Post image">
+        </div>
+      
+
       <div class="post-footer">
         <div class="post-interactions">
             <span class="interaction" (click)="toggleLike(post)">
