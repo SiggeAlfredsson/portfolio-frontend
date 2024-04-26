@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
 import { Observable, catchError, of } from 'rxjs';
@@ -36,7 +36,16 @@ export class PostService {
     return this.http
       .get<Post[]>(`${this.url}/user/${username}`, this.getHttpOptions())
       .pipe(catchError(this.handleError<Post[]>('getPostsByUsername')));
+  }
 
+  getPublicPosts(page: number, size: number = 10): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.url}/scroll/public`;
+
+    params = params.append('page', page.toString());
+    params = params.append('size', size.toString());
+
+    return this.http.get<any>(`${url}`, { params });
   }
 
   createNewPost(post: Post, photos: File[]): Observable<any> {

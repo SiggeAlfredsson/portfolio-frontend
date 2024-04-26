@@ -5,6 +5,7 @@ export interface Post {
   title: string;
   description: string;
   private: boolean;
+  createdAt: Date;
 
   picturesIds: number[];
   
