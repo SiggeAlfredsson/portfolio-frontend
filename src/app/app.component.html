@@ -15,15 +15,15 @@
         Find Friends
       </button>
       <div
-        *ngIf="isLoggedIn && username; else notLoggedIn"
+        *ngIf="isLoggedIn && user?.username; else notLoggedIn"
         class="user-container"
       >
         <button
           mat-button
-          (click)="goToUserProfile(username)"
+          (click)="goToUserProfile()"
           style="cursor: pointer"
         >
-          {{ username }}
+          {{ user?.username }}
         </button>
         <button mat-button color="warn" (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>

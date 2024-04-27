@@ -9,10 +9,16 @@ export interface User {
     registeredAt: Date;
     lastSeen: Date;
 
-    postsIds: number[],
+    postsIds: number[];
+
+    likedPostsIds: number[];
+    starredPostsIds: number[];
+    commentsIds: number[];
+
 
     followersIds: number[];
     followingsIds: number[];
     isFollowing?: boolean;
+
 
   }

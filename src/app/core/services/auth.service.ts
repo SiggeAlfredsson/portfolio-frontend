@@ -1,16 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, map, of, tap } from 'rxjs';
+import { User } from '../models/user';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isAuthenticated = false;
-
   private authUrl = 'http://localhost:8090/api/auth'
+  
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
 
+  public get currentUser$(): Observable<User | null> {
+    return this.currentUserSubject.asObservable();
+  }
 
   private getHttpOptions() {
     const token = localStorage.getItem('token');
@@ -27,44 +31,54 @@ export class AuthService {
   
 
   constructor(private http: HttpClient) { }
+  private userSubscription?: Subscription;
 
   login(username: string, password: string): Observable<boolean> {
-    const loginDto = {
-      username: username,
-      password: password,
-    };
-  
-    return this.authenticate(loginDto).pipe(
-      
-      map((token: { token: string; }) => {
-        if (token) {
-          localStorage.setItem('username', username);
-          localStorage.setItem('token', token.token);
-          this.isAuthenticated = true;
-          window.location.href = '/';
-          return true;
-        } else {
+    const loginDto = { username, password };
+    return this.http.post<any>(`${this.authUrl}/login`, loginDto, this.getHttpOptions())
+      .pipe(
+        map(response => {
+          if (response) {
+            this.currentUserSubject.next(response.user);
+            localStorage.setItem('token', response.token);
+            window.location.href = '/';
+            return true;
+          }
           return false;
-        }
-      }),
-      catchError((error) => {
-        console.error('Authentication error:', error);
-        return of(false); // Return an observable with a value of false
-      })
-    );
+        }),
+        catchError((error) => {
+          console.error('Authentication error:', error);
+          return of(false);
+        })
+      );
   }
 
-  authenticate(loginDto: any): Observable<any>{ // backend returns object with token: <token>
-    const url = `${this.authUrl}/login`
-    return this.http
-    .post<string>(url, loginDto, this.getHttpOptions()) // why get http options here w/e
-    .pipe(catchError(this.handleError<string>("login")));
+
+  validateJwtToken(token: string): Observable<boolean> {
+    const url = `${this.authUrl}/token`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<any>(url, (token), { headers: headers })
+      .pipe(
+        map(response => {
+          this.currentUserSubject.next(response);
+          return true;
+        }),
+        catchError(error => {
+          if (error.status === 401) {
+            this.logout()
+            return of(false);
+          }
+          throw error;
+        })
+      );
   }
 
   logout() {
-    localStorage.removeItem('username');
     localStorage.removeItem('token');
-    this.isAuthenticated = false;
+    this.currentUserSubject.next(null);
   }
 
   register(username: string, password: string): Observable<any> {
@@ -78,9 +92,7 @@ export class AuthService {
   }
 
   isAuth() {
-    return localStorage.getItem('token') !== null;
-    // for testing
-    // return this.isAuthenticated;
+    return this.currentUserSubject !== null;
   }
 
 

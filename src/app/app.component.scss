@@ -36,7 +36,9 @@ button {
 }
 
 .content {
-  flex-grow: 1;
+  width: 100%;
+  height: calc(100% - 64px);
+
 }
 
 

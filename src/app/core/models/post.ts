@@ -10,8 +10,9 @@ export interface Post {
 
   picturesIds: number[];
   
-  stars: User[],
-  likes: User[],
+  likes: number[];
+  stars: number[];
+
   comments: Comment[],
 
 }

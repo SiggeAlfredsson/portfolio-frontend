@@ -68,10 +68,6 @@ export class DiscoverUsersComponent implements OnInit {
   }
 
   toggleFollow(user: User): void {
-    if (!localStorage.getItem('username')) {
-      alert("Please log in to follow users.");
-      return;
-    }
     if (user.isFollowing) {
       this.unFollowUser(user.id);
     } else {

@@ -10,10 +10,10 @@
 
   <div class="post-interactions">
     <span class="interaction" (click)="toggleLike(post)">
-      <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
+      <mat-icon [ngClass]="{'liked': isLikedByUser()}">thumb_up</mat-icon> {{ post.likes.length || 0 }}
     </span>
     <span class="interaction" (click)="toggleStar(post)">
-      <mat-icon>star</mat-icon> {{ post.stars.length || 0 }}
+      <mat-icon [ngClass]="{'stared': isStaredByUser()}">star</mat-icon> {{ post.stars.length || 0 }}
     </span>
   </div>
 
@@ -37,12 +37,4 @@
       <mat-icon>send</mat-icon>
     </button>
   </div>
-  <!-- <form (ngSubmit)="submitComment()">
-    <textarea
-      [(ngModel)]="newCommentText"
-      name="commentText"
-      required
-    ></textarea>
-    <button type="submit">Post Comment</button>
-  </form> -->
 </div>

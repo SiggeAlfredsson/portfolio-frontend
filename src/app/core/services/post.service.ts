@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
-import { Observable, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,6 @@ export class PostService {
   }
 
   createNewPost(post: Post, photos: File[]): Observable<any> {
-    console.log(post)
     const formData = new FormData();
     formData.append('post', new Blob([JSON.stringify(post)], {
       type: "application/json"

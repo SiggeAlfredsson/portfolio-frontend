@@ -13,9 +13,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  loggedInUsername: string | null = null;
   username: string | null = null;
-
+  loggedInUsername = "haha"
   followingIds: number[] = [];
   user!: User;
   posts: Post[] = [];
@@ -29,7 +28,6 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUsername = localStorage.getItem('username'); // never used?
 
     this.route.params.subscribe((params) => {
       this.username = params['username'];
