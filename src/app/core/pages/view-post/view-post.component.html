@@ -25,12 +25,24 @@
   </div>
 
   <!-- Add Comment Form -->
-  <form (ngSubmit)="submitComment()">
+  <div class="chat">
+    <input
+      class="message-input"
+      [(ngModel)]="newCommentText"
+      (keyup.enter)="submitComment()"
+      type="text"
+      placeholder="Type a comment..."
+    />
+    <button class="send-message-btn" mat-icon-button (click)="submitComment()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+  <!-- <form (ngSubmit)="submitComment()">
     <textarea
       [(ngModel)]="newCommentText"
       name="commentText"
       required
     ></textarea>
     <button type="submit">Post Comment</button>
-  </form>
+  </form> -->
 </div>

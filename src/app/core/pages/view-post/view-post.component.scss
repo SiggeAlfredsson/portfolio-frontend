@@ -44,3 +44,26 @@
     }
   }
 }
+
+
+.send-message-btn {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+}
+
+.message-input {
+  flex: 1;
+  margin-left: 10px; 
+  height: 100%;
+
+  outline: none;
+  border: none;
+  background-color: rgb(128, 128, 128, 0.0); /* just to set the opacity to 0, for dark mode */
+}
