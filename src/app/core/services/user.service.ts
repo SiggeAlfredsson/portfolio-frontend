@@ -4,10 +4,10 @@ import { Observable, catchError, of } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private url = 'http://localhost:8090/api/users'
+  private url = 'http://localhost:8090/api/users';
 
   private getHttpOptions() {
     const token = localStorage.getItem('token');
@@ -21,9 +21,8 @@ export class UserService {
 
     return { headers };
   }
-  
-  constructor(private http: HttpClient) { }
 
+  constructor(private http: HttpClient) {}
 
   getUserByUsername(username: string): Observable<User> {
     const url = `${this.url}/username/${username}`;
@@ -59,6 +58,12 @@ export class UserService {
       .pipe(catchError(this.handleError<number[]>('getMyFollowings')));
   }
 
+  convertIdsToUsers(ids: number[]): Observable<User[]> {
+    const url = `${this.url}/convert-ids`;
+    return this.http
+      .post<User[]>(url, ids, this.getHttpOptions())
+      .pipe(catchError(this.handleError<User[]>('convertIds')));
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

@@ -2,10 +2,12 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription, switchMap, take } from 'rxjs';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post';
 import { AuthService } from '../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UsersDialogComponent } from '../../dialogs/users-dialog/users-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,7 +27,8 @@ export class UserProfileComponent implements OnInit {
     private authService: AuthService,
     private postService: PostService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -86,18 +89,29 @@ export class UserProfileComponent implements OnInit {
   }
 
   showFollowers(): void {
-    // Logic to display followers
-    console.log('Followers:', this.user.followersIds);
+    this.userService.convertIdsToUsers(this.user.followersIds).pipe(take(1)).subscribe((users) => {
+      this.dialog.open(UsersDialogComponent, {
+        data: { 
+          title: 'Followers',
+          users: users
+        }
+      });
+    })
   }
 
   showFollowing(): void {
-    // Logic to display following
-    console.log('Following:', this.user.followingsIds);
+    this.userService.convertIdsToUsers(this.user.followingsIds).pipe(take(1)).subscribe((users) => {
+      this.dialog.open(UsersDialogComponent, {
+        data: { 
+          title: 'Following',
+          users: users
+        }
+      });
+    })
   }
 
-  showPosts(): void {
-    // Logic to display posts
-    // console.log('Posts:', this.posts);
+  showStaredPosts() {
+
   }
 
   toggleFollow(user: User): void {
@@ -108,16 +122,47 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  followUser(followId: number): void {
+  followUser(followId: number): void { //unsub
     this.userService.followUser(followId).subscribe(() => {
       this.updateFollowStatus(followId, true);
     });
   }
 
-  unFollowUser(followId: number): void {
+  unFollowUser(followId: number): void { //unsub
     this.userService.unFollowUser(followId).subscribe(() => {
       this.updateFollowStatus(followId, false);
     });
+  }
+
+  toggleLike(post: Post, event: MouseEvent): void {
+    event.stopPropagation();
+
+    this.postService.likePost(post.id).subscribe(() => {
+      if(post.likes.includes(this.loggedInUser!.id)) {
+        post.likes = post.likes.filter(num => num !== this.loggedInUser!.id)
+      } else {
+        post.likes.push(this.loggedInUser!.id)
+      }    });
+  }
+
+  isLikedByUser(post: Post): boolean {
+    return post.likes.includes(this.loggedInUser!.id) ?? false;
+  }
+
+  toggleStar(post: Post,  event: MouseEvent): void {
+    event.stopPropagation();
+
+    this.postService.starPost(post.id).subscribe(() => {
+      if(post.stars.includes(this.loggedInUser!.id)) {
+        post.stars = post.stars.filter(num => num !== this.loggedInUser!.id)
+      } else {
+        post.stars.push(this.loggedInUser!.id)
+      }
+    });
+  }
+
+  isStaredByUser(post: Post): boolean {
+    return post.stars.includes(this.loggedInUser!.id) ?? false;    
   }
 
   updateFollowStatus(userId: number, isFollowing: boolean): void {

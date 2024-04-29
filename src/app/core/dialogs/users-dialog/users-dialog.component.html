@@ -1,0 +1,18 @@
+<div class="container">
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <hr>
+  <mat-dialog-content>
+    <ul>
+      <li
+        *ngFor="let user of data.users"
+        (click)="navigateToUser(user.username)"
+      >
+        <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="User Image" />
+        <h3>{{ user.username }}</h3>
+      </li>
+    </ul>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="true">Close</button>
+  </mat-dialog-actions>
+</div>

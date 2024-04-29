@@ -16,9 +16,11 @@ export interface User {
     commentsIds: number[];
 
 
+
     followersIds: number[];
     followingsIds: number[];
     isFollowing?: boolean;
+    imageUrl?: string;
 
 
   }

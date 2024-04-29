@@ -13,4 +13,9 @@ export class PictureService {
   getImageById(imageId: number): Observable<Blob> {
     return this.http.get(`${this.imageUrl}/${imageId}`, { responseType: 'blob' });
   }
+
+  getUserPicture(userId: number): Observable<Blob> {
+    return this.http.get(`${this.imageUrl}/user/${userId}`, { responseType: 'blob' });
+  }
+
 }

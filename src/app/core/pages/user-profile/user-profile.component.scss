@@ -86,20 +86,22 @@
     color: #666;
     font-size: 0.9rem;
   }
-  
-  .post-stats {
+
+
+  .post-interactions {
     display: flex;
+    justify-content: start;
     align-items: center;
-    font-size: 0.9rem;
-    color: #333;
+    margin-top: 15px;
   
-    mat-icon {
-      margin-right: 5px;
-    }
+    .interaction {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      cursor: pointer;
   
-    span {
-      margin-right: 20px;  // Space between each stat
+      mat-icon {
+        margin-right: 5px;
+      }
     }
   }
-  
-  

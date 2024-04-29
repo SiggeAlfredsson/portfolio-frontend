@@ -32,19 +32,35 @@
       <span>Following: </span
       ><a (click)="showFollowing()">{{ user.followingsIds.length }}</a>
     </div>
+    <div>
+      <span>Stared posts: </span
+      ><a (click)="showStaredPosts()">{{ user.starredPostsIds.length }}</a>
+    </div>
   </div>
   <div class="post-list">
     <h3>Posts</h3>
     <ul>
       <li *ngFor="let post of posts" (click)="navigateToPost(post.id)">
-        <span>{{ post.title }} <mat-icon *ngIf="post.private">lock</mat-icon></span>
+        <span>
+          {{ post.title }} <mat-icon *ngIf="post.private">lock</mat-icon>
+        </span>
         <small>{{ post.description }}</small>
-        <div class="post-stats">
-          <mat-icon>comment</mat-icon><span>{{ post.comments.length }}</span>
-          <mat-icon>star</mat-icon><span>{{ post.stars.length }}</span>
-          <mat-icon>thumb_up</mat-icon><span>{{ post.likes.length }}</span>
+        <div class="post-interactions">
+          <span class="interaction" (click)="navigateToPost(post.id)">
+            <mat-icon>comment</mat-icon>
+            <span>{{ post.comments.length }}</span>
+          </span>
+          <span class="interaction" (click)="toggleLike(post, $event)">
+            <mat-icon [ngClass]="{ liked: isLikedByUser(post) }">thumb_up</mat-icon>
+            {{ post.likes.length || 0 }}
+          </span>
+          <span class="interaction" (click)="toggleStar(post, $event)">
+            <mat-icon [ngClass]="{ stared: isStaredByUser(post) }">star</mat-icon>
+            {{ post.stars.length || 0 }}
+          </span>
         </div>
       </li>
+      
     </ul>
   </div>
 </div>

@@ -29,6 +29,8 @@ import { CreatePostComponent } from './core/pages/create-post/create-post.compon
 import { MatCardModule } from '@angular/material/card';
 import { ViewPostComponent } from './core/pages/view-post/view-post.component';
 import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.component';
+import { UsersDialogComponent } from './core/dialogs/users-dialog/users-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.c
     CreatePostComponent,
     ViewPostComponent,
     ImageDialogComponent,
+    UsersDialogComponent,
 
   ],
   imports: [
@@ -63,6 +66,7 @@ import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.c
     CommonModule,
     MatDividerModule,
     MatCardModule,
+    MatDialogModule,
   ],
   providers: [
     provideAnimationsAsync()
