@@ -2,6 +2,10 @@
   <div class="post-header">
     <span>{{ post.username }}'s Post </span>
     <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
+    <span *ngIf="canModifyPost()">
+      <mat-icon (click)="editPost(post)" aria-label="Edit post" style="margin-right: 10px; cursor: pointer;">edit</mat-icon>
+      <mat-icon (click)="deletePost(post)" aria-label="Delete post" style="cursor: pointer;">delete</mat-icon>
+    </span>
   </div>
   <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
@@ -27,21 +31,36 @@
       <p *ngIf="!comment.isEditing">
         {{ comment.username }}: {{ comment.text }}
         <span class="icon-container">
-          <span class="comment-date">{{ comment.createdAt | date: 'short' }}</span>
-          <mat-icon *ngIf="canEditComment(comment)" (click)="enableEdit(comment)" class="edit-icon">edit</mat-icon>
-          <mat-icon *ngIf="canEditComment(comment)" (click)="deleteComment(comment.id)" class="delete-icon">delete</mat-icon>
+          <span class="comment-date">{{
+            comment.createdAt | date : "short"
+          }}</span>
+          <mat-icon
+            *ngIf="canEditComment(comment)"
+            (click)="enableEdit(comment)"
+            class="edit-icon"
+            >edit</mat-icon
+          >
+          <mat-icon
+            *ngIf="canEditComment(comment)"
+            (click)="deleteComment(comment.id)"
+            class="delete-icon"
+            >delete</mat-icon
+          >
         </span>
       </p>
       <div *ngIf="comment.isEditing" class="edit-container">
-        <input [(ngModel)]="comment.editText" class="edit-input" type="text" [placeholder]="comment.text">
+        <input
+          [(ngModel)]="comment.editText"
+          class="edit-input"
+          type="text"
+          [placeholder]="comment.text"
+        />
         <button mat-button (click)="saveComment(comment)">Save</button>
         <button mat-button (click)="cancelEdit(comment)">Cancel</button>
       </div>
     </div>
   </div>
-  
 
-  <!-- Add Comment Form -->
   <div class="chat">
     <input
       class="comment-input"

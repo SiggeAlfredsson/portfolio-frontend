@@ -61,6 +61,15 @@ export class PostService {
     return this.http.post(this.url, formData, this.getHttpOptions());
   }
 
+  deletePost(id: number): Observable<any> {
+    const url = `${this.url}/${id}`;
+    return this.http
+      .delete(url, this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('deletePost')));
+
+
+  }
+
   addComment(postId: number, commentText: string):Observable<any> {
     const url = `${this.url}/${postId}/comment`;
 

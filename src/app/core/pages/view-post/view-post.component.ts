@@ -158,4 +158,20 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     comment.isEditing = false;
   }
 
+  canModifyPost(): boolean {
+    return this.user?.admin || this.post?.username === this.user?.username;
+  }
+
+  deletePost(post: Post): void {
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.postService.deletePost(post.id).subscribe(() => {
+        // handle response, e.g., navigate away or refresh the list
+      });
+    }
+  }
+
+  editPost(post: Post): void {
+    // Logic to navigate to an edit page or open an edit dialog
+  }
+
 }
