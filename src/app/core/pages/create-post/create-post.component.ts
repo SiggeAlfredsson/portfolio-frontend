@@ -1,7 +1,8 @@
 // In your create-post.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PostService } from '../../services/post.service';  // Update path as necessary
+import { PostService } from '../../services/post.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-post',
@@ -11,8 +12,9 @@ import { PostService } from '../../services/post.service';  // Update path as ne
 export class CreatePostComponent {
   postForm: FormGroup;
   files: File[] = [];
+  imagePreviews: any[] = [];
 
-  constructor(private fb: FormBuilder, private postService: PostService) {
+  constructor(private fb: FormBuilder, private postService: PostService, private router: Router) {
     this.postForm = this.fb.group({
       title: ['', [Validators.required]],
       description: [''],
@@ -21,11 +23,13 @@ export class CreatePostComponent {
   }
 
   onSubmit() {
+    console.log("hello")
     if (this.postForm.valid) {
       this.postService.createNewPost(this.postForm.value, this.files).subscribe(
-        response => {
-          console.log('Post created successfully', response);
-          // Handle successful creation here
+        post => {
+          console.log(post)
+          this.router.navigate(['/post/' + post.id]);
+
         },
         error => {
           console.error('Error creating post', error);
@@ -36,6 +40,27 @@ export class CreatePostComponent {
   }
 
   onFileSelected(event: any) {
-    this.files = Array.from(event.target.files);
+    const files: FileList = event.target.files;
+    this.files = [];
+    this.imagePreviews = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.files.push(file);
+
+      // Create a URL for each selected file to use for preview
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviews.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   }
+
+  onUploadPhotosClick(event: Event, fileInput: HTMLInputElement) {
+    event.preventDefault(); 
+    fileInput.click(); 
+  }
+  
+
 }

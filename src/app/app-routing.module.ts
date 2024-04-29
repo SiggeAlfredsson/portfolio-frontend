@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'home', title: "Home", component: HomeComponent},
   { path: 'user/:username', title: "User Page", component: UserProfileComponent},
   { path: 'find-friends', title: "Find Friends", component: DiscoverUsersComponent},
-  { path: 'posts/:postId', title: "View Post", component: ViewPostComponent },
+  { path: 'post/:postId', title: "View Post", component: ViewPostComponent },
   { path: 'create-post', title: "New Post", component: CreatePostComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent},

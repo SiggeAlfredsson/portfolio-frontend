@@ -2,7 +2,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user';
-import { switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post';
 import { AuthService } from '../../services/auth.service';
@@ -14,20 +14,24 @@ import { AuthService } from '../../services/auth.service';
 })
 export class UserProfileComponent implements OnInit {
   username: string | null = null;
-  loggedInUsername = "haha"
   followingIds: number[] = [];
   user!: User;
   posts: Post[] = [];
+  loggedInUser: User | null = null;
+  private userSubscription!: Subscription;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private postService: PostService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => {
+      this.loggedInUser = user;
+    });
 
     this.route.params.subscribe((params) => {
       this.username = params['username'];
@@ -37,42 +41,48 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   fetchUser() {
     if (this.authService.isAuth()) {
       this.userService
-      .getMyFollowings()
-      .pipe(
-        switchMap((followingUsers) => {
-          this.followingIds = followingUsers;
-          return this.userService.getUserByUsername(this.username!);
-        })
-      )
-      .subscribe({
-        next: (user) => {
-          this.user = user;
-          this.user.isFollowing = this.followingIds.includes(user.id);
-          this.loadPosts(user.username);
-        },
-        error: (error) => console.error('Failed to load user profile:', error),
-      });
+        .getMyFollowings()
+        .pipe(
+          switchMap((followingUsers) => {
+            this.followingIds = followingUsers;
+            return this.userService.getUserByUsername(this.username!);
+          })
+        )
+        .subscribe({
+          next: (user) => {
+            this.user = user;
+            this.user.isFollowing = this.followingIds.includes(user.id);
+            this.loadPosts(user.username);
+          },
+          error: (error) =>
+            console.error('Failed to load user profile:', error),
+        });
     } else {
       this.userService.getUserByUsername(this.username!).subscribe((user) => {
         this.user = user;
         this.loadPosts(user.username);
-      })
+      });
     }
     // Get the followings first and then load the user profile
-
   }
 
   loadPosts(username: string) {
-    this.postService.getUserPosts(username).subscribe(posts => {
+    this.postService.getUserPosts(username).subscribe((posts) => {
       this.posts = posts;
     });
   }
 
   navigateToPost(postId: number): void {
-    this.router.navigate(['/posts', postId]);
+    this.router.navigate(['/post', postId]);
   }
 
   showFollowers(): void {

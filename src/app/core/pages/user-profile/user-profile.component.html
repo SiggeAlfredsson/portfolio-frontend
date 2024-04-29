@@ -8,7 +8,7 @@
     <div class="user-info">
       <h2>{{ user.username }}</h2>
       <button
-        *ngIf="loggedInUsername && loggedInUsername !== user.username"
+        *ngIf="loggedInUser && loggedInUser.username !== user.username"
         (click)="toggleFollow(user)"
         [ngClass]="{
           'follow-btn': true,

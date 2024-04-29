@@ -1,30 +1,36 @@
 <div class="post-container">
-    <div *ngFor="let post of posts" class="post-card">
-      <span><small> {{post.username}}'s Post </small></span>
-      <div class="post-header">
-        <h2>{{ post.title }}</h2>
-        <span class="post-date">{{ post.createdAt | date: 'medium' }}</span>
-      </div>
-      <p class="post-description">{{ post.description }}</p>
+  <div *ngFor="let post of posts" class="post-card">
+    <div class="post-header">
+      <span
+        ><small> {{ post.username }}'s Post </small></span
+      >
+      <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
+    </div>
+    <h2>{{ post.title }}</h2>
+    <p class="post-description">{{ post.description }}</p>
 
-      <div *ngFor="let image of images[post.id]">
-        <img [src]="image" (click)="openImageDialog(image)" alt="Post image">
-      </div>
+    <div *ngFor="let image of images[post.id]">
+      <img [src]="image" (click)="openImageDialog(image)" alt="Post image" />
+    </div>
 
-      <div class="post-footer">
-        <div class="post-interactions">
-          <span class="interaction" (click)="navigateToPost(post.id)">
-            <mat-icon>comment</mat-icon><span>{{ post.comments.length }}</span>
-          </span>
-            <span class="interaction" (click)="toggleLike(post)">
-              <mat-icon>thumb_up</mat-icon> {{ post.likes.length || 0 }}
-            </span>
-            <span class="interaction" (click)="toggleStar(post)">
-              <mat-icon>star</mat-icon> {{ post.stars.length || 0 }}
-            </span>
-          </div>
-          <div class="padding"></div>
-        <button mat-button (click)="navigateToPost(post.id)">Read More</button>
+    <div class="post-footer">
+      <div class="post-interactions">
+        <span class="interaction" (click)="navigateToPost(post.id)">
+          <mat-icon>comment</mat-icon><span>{{ post.comments.length }}</span>
+        </span>
+        <span class="interaction" (click)="toggleLike(post)">
+          <mat-icon [ngClass]="{ liked: isLikedByUser(post) }"
+            >thumb_up</mat-icon
+          >
+          {{ post.likes.length || 0 }}
+        </span>
+        <span class="interaction" (click)="toggleStar(post)">
+          <mat-icon [ngClass]="{ stared: isStaredByUser(post) }">star</mat-icon>
+          {{ post.stars.length || 0 }}
+        </span>
       </div>
+      <div class="padding"></div>
+      <button mat-button (click)="navigateToPost(post.id)">Read More</button>
     </div>
   </div>
+</div>

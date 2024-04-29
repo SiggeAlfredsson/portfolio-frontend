@@ -8,6 +8,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PictureService } from '../../services/picture.service';
 import { ImageDialogComponent } from '../../dialogs/image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../models/user';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -20,20 +22,38 @@ export class HomeComponent implements OnInit {
   notEmptyPost = true;
   notScrolly = true;
   images: { [key: number]: SafeUrl[] } = {}; // Store images by post ID
+  
+  loggedInUser: User | null = null;
+  private userSubscription!: Subscription;
 
   constructor(
     private postService: PostService, 
     private router: Router,
     private pictureService: PictureService,
     private dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
+
+    this.authService.currentUser$.subscribe((user) => {
+      this.loggedInUser = user;
+    });
+
     this.loadInitialPosts();
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   loadInitialPosts() {
+
+    this.posts = [];
+
     this.postService.getPublicPosts(this.page).subscribe(res => {
       this.posts = res.content;
       this.notEmptyPost = !!res.content.length;
@@ -88,19 +108,35 @@ export class HomeComponent implements OnInit {
   
 
   navigateToPost(postId: number): void {
-    this.router.navigate(['/posts', postId]);
+    this.router.navigate(['/post', postId]);
   }
 
   toggleLike(post: Post): void {
     this.postService.likePost(post.id).subscribe(() => {
-
-    })
+      if(post.likes.includes(this.loggedInUser!.id)) {
+        post.likes = post.likes.filter(num => num !== this.loggedInUser!.id)
+      } else {
+        post.likes.push(this.loggedInUser!.id)
+      }    });
   }
-  
+
+  isLikedByUser(post: Post): boolean {
+    return post.likes.includes(this.loggedInUser!.id) ?? false;
+  }
+
   toggleStar(post: Post): void {
     this.postService.starPost(post.id).subscribe(() => {
+      if(post.stars.includes(this.loggedInUser!.id)) {
+        post.stars = post.stars.filter(num => num !== this.loggedInUser!.id)
+      } else {
+        post.stars.push(this.loggedInUser!.id)
+      }
+    });
+  }
 
-    })  }
+  isStaredByUser(post: Post): boolean {
+    return post.stars.includes(this.loggedInUser!.id) ?? false;    
+  }
   
   openImageDialog(imageSrc: any) {
     console.log(imageSrc)

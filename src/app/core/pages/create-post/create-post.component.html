@@ -1,24 +1,52 @@
-<mat-card>
+
+<div class="container">
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="test">
       <mat-form-field appearance="fill">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" required>
-          <mat-error *ngIf="postForm.get('title')?.invalid">Title is required</mat-error>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" required />
+        <mat-error *ngIf="postForm.get('title')?.invalid"
+          >Title is required</mat-error
+        >
       </mat-form-field>
-  
+
       <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" class="description"></textarea>
       </mat-form-field>
-  
-      <mat-slide-toggle formControlName="private">Private Post</mat-slide-toggle>
-  
-      <input type="file" multiple (change)="onFileSelected($event)" hidden #fileInput>
-      <button mat-raised-button color="primary" (click)="fileInput.click()">Upload Photo</button>
-      <div *ngIf="files.length">
-          <span *ngFor="let file of files">{{ file.name }}</span>
+
+      <div class="pictures" *ngIf="files.length">
+        <img *ngFor="let preview of imagePreviews" [src]="preview" alt="Preview">
       </div>
-  
-      <button mat-raised-button color="accent" type="submit" [disabled]="postForm.invalid">Create Post</button>
+
+      <div class="test2">
+        <mat-slide-toggle formControlName="private">Private</mat-slide-toggle>
+
+        <input
+          type="file"
+          multiple
+          (change)="onFileSelected($event)"
+          hidden
+          #fileInput
+        />
+        <button
+          mat-raised-button
+          color="primary"
+          class="upload-photo-btn"
+          (click)="onUploadPhotosClick($event, fileInput)"
+        >
+          Upload Photos
+        </button>
+      </div>
+      <button
+        mat-raised-button
+        color="accent"
+        class="submit-btn"
+        type="submit"
+        [disabled]="postForm.invalid"
+      >
+        Create Post
+      </button>
+    </div>
   </form>
-</mat-card>
+</div>

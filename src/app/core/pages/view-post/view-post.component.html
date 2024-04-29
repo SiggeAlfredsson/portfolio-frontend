@@ -1,8 +1,10 @@
 <div class="post-container" *ngIf="post">
-  <span>{{post.username}}'s Post</span>
+  <div class="post-header">
+    <span>{{ post.username }}'s Post </span>
+    <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
+  </div>
   <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
-  <p>Created on: {{ post.createdAt | date : "medium" }}</p>
 
   <div *ngFor="let image of images">
     <img [src]="image" (click)="openImageDialog(image)" alt="Post Image" />
@@ -10,10 +12,12 @@
 
   <div class="post-interactions">
     <span class="interaction" (click)="toggleLike(post)">
-      <mat-icon [ngClass]="{'liked': isLikedByUser()}">thumb_up</mat-icon> {{ post.likes.length || 0 }}
+      <mat-icon [ngClass]="{ liked: isLikedByUser() }">thumb_up</mat-icon>
+      {{ post.likes.length || 0 }}
     </span>
     <span class="interaction" (click)="toggleStar(post)">
-      <mat-icon [ngClass]="{'stared': isStaredByUser()}">star</mat-icon> {{ post.stars.length || 0 }}
+      <mat-icon [ngClass]="{ stared: isStaredByUser() }">star</mat-icon>
+      {{ post.stars.length || 0 }}
     </span>
   </div>
 
@@ -27,13 +31,13 @@
   <!-- Add Comment Form -->
   <div class="chat">
     <input
-      class="message-input"
+      class="comment-input"
       [(ngModel)]="newCommentText"
       (keyup.enter)="submitComment()"
       type="text"
       placeholder="Type a comment..."
     />
-    <button class="send-message-btn" mat-icon-button (click)="submitComment()">
+    <button class="comment-btn" mat-icon-button (click)="submitComment()">
       <mat-icon>send</mat-icon>
     </button>
   </div>
