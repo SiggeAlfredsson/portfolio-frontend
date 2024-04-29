@@ -123,6 +123,39 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.loadPost();
     });
 
-    this.newCommentText = ''; // Clear the input after submission
+    this.newCommentText = '';
   }
+
+  canEditComment(comment: Comment): boolean {
+    return this.user && (comment.username === this.user.username || this.user.admin) || false;
+  }
+  
+  deleteComment(commentId: number): void {
+    this.postService.deleteComment(commentId).subscribe(() => {
+      this.loadPost();
+    }, error => {
+      console.error('Failed to delete comment:', error);
+    });
+  }
+
+
+  enableEdit(comment: Comment): void {
+    comment.isEditing = true;
+    comment.editText = comment.text; // temp store for the org text
+  }
+  
+  saveComment(comment: Comment): void {
+    comment.text = comment.editText;
+    this.postService.editComment(comment.id, comment.text!).subscribe(() => {
+      comment.isEditing = false;
+      this.loadPost();
+    }, error => {
+      console.error('Failed to save comment:', error);
+    });
+  }
+  
+  cancelEdit(comment: Comment): void {
+    comment.isEditing = false;
+  }
+
 }

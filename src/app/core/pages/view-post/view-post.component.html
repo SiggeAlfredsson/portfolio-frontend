@@ -24,9 +24,22 @@
   <div class="comments-section">
     <h3>Comments</h3>
     <div *ngFor="let comment of post.comments">
-      <p>{{ comment.username }}: {{ comment.text }}</p>
+      <p *ngIf="!comment.isEditing">
+        {{ comment.username }}: {{ comment.text }}
+        <span class="icon-container">
+          <span class="comment-date">{{ comment.createdAt | date: 'short' }}</span>
+          <mat-icon *ngIf="canEditComment(comment)" (click)="enableEdit(comment)" class="edit-icon">edit</mat-icon>
+          <mat-icon *ngIf="canEditComment(comment)" (click)="deleteComment(comment.id)" class="delete-icon">delete</mat-icon>
+        </span>
+      </p>
+      <div *ngIf="comment.isEditing" class="edit-container">
+        <input [(ngModel)]="comment.editText" class="edit-input" type="text" [placeholder]="comment.text">
+        <button mat-button (click)="saveComment(comment)">Save</button>
+        <button mat-button (click)="cancelEdit(comment)">Cancel</button>
+      </div>
     </div>
   </div>
+  
 
   <!-- Add Comment Form -->
   <div class="chat">

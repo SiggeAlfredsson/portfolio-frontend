@@ -70,8 +70,22 @@ export class PostService {
   }
 
   // edit comment --- last
+  editComment(id:number, text: string): Observable<any> {
+    const url = `${this.url}/comment/${id}`;
+    return this.http
+      .put(url, text, this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('editComment')));
+  }
 
   // delete comment
+  deleteComment(id: number): Observable<any> {
+    const url = `${this.url}/comment/${id}`;
+    return this.http
+      .delete(url, this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('deleteComment')));
+
+  }
+
 
   // like post
   likePost(postId: number):Observable<any> {

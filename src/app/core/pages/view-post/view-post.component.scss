@@ -86,3 +86,55 @@
     color: #666;
   }
 }
+
+.comments-section p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f4f4;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon, .delete-icon {
+  cursor: pointer;
+  color: #666;
+  margin-left: 10px;
+}
+
+.edit-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-input {
+  flex-grow: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 8px 16px;
+}
+
+
+.comment-header {
+  font-weight: bold;
+}
+
+.comment-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-left: 10px;
+}
+
+.comment-text {
+  display: block; // Ensure the comment text is on a new line if needed
+}

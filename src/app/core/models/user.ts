@@ -4,6 +4,7 @@ export interface User {
     password: string;
     description: string;
     pictureId: number;
+    admin: boolean;
 
 
     registeredAt: Date;
