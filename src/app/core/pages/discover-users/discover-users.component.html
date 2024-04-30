@@ -11,7 +11,7 @@
                     <mat-icon>article</mat-icon><span>{{ user.postsIds.length }}</span> 
                     <mat-icon>people</mat-icon><span>{{ user.followersIds.length }}</span> 
                 </div>
-                <button *ngIf="loggedInUsername" 
+                <button *ngIf="user" 
                         (click)="$event.stopPropagation(); toggleFollow(user)" 
                         [ngClass]="{'follow-btn': true, 'follow': !user.isFollowing, 'unfollow': user.isFollowing}">
                     {{ user.isFollowing ? 'Unfollow' : 'Follow' }}

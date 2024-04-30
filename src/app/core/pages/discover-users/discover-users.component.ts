@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-discover-users',
@@ -12,20 +14,29 @@ export class DiscoverUsersComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   followingIds: number[] = [];
-  loggedInUsername?: string;
+  
+  user: User | null = null; // the one that is logged in
+  private userSubscription!: Subscription;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.fetchUsers();
   }
 
-  fetchUsers(): void {
-    const loggedInUsername = localStorage.getItem('username');
-    if(loggedInUsername){
-        this.loggedInUsername = loggedInUsername;
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
-    if (loggedInUsername) {
+  }
+
+  fetchUsers(): void {
+
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+      this.user = user;
+    });
+  
+    if (this.authService.isAuth()) {
         this.userService.getMyFollowings().subscribe({
           next: (followingUsers) => {
             this.followingIds = followingUsers;
@@ -45,15 +56,21 @@ export class DiscoverUsersComponent implements OnInit {
       (users: User[]) => {
         this.users = users.map(user => ({
           ...user,
-          isFollowing: this.loggedInUsername ? this.followingIds.includes(user.id) : false
+          isFollowing: this.followingIds.includes(user.id)
         }));
-        this.filteredUsers = this.users.filter(user => !this.loggedInUsername || user.username !== this.loggedInUsername);
+  
+        if (this.user) {
+          this.filteredUsers = this.users.filter(user => user.username !== this.user!.username);
+        } else {
+          this.filteredUsers = this.users;
+        }
       },
       (error) => {
         console.error('Failed to load all users:', error);
       }
     );
   }
+  
 
   filterUsers(event: Event): void {
     const element = event.target as HTMLInputElement;
