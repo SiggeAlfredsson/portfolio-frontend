@@ -31,6 +31,7 @@ import { ViewPostComponent } from './core/pages/view-post/view-post.component';
 import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.component';
 import { UsersDialogComponent } from './core/dialogs/users-dialog/users-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatCardModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideAnimationsAsync()

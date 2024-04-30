@@ -13,6 +13,7 @@ import { Subscription, take } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'portfolio-frontend';
   isLoggedIn?: boolean;
+  isLoading: boolean = false;
   user: User | null = null;
   private userSubscription!: Subscription;
 
@@ -24,7 +25,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem("token");
     if (token) {
+      this.isLoading = true;
       this.authService.validateJwtToken(token).subscribe((res) => {
+        this.isLoading = false;
         if(res) {
           this.isLoggedIn = true;
         }

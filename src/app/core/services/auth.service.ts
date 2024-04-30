@@ -91,10 +91,8 @@ export class AuthService {
       .pipe(catchError(this.handleError<any>('register')));
   }
 
-  isAuth(): Observable<boolean> {
-    return this.currentUser$.pipe(
-      map(user => !!user)
-    );
+  isAuth() {
+    return localStorage.getItem("token") !== null
   }
 
 
