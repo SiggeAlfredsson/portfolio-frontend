@@ -91,8 +91,10 @@ export class AuthService {
       .pipe(catchError(this.handleError<any>('register')));
   }
 
-  isAuth() {
-    return this.currentUserSubject !== null;
+  isAuth(): Observable<boolean> {
+    return this.currentUser$.pipe(
+      map(user => !!user)
+    );
   }
 
 

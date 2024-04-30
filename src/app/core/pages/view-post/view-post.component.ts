@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PictureService } from '../../services/picture.service';
@@ -32,24 +32,25 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private pictureService: PictureService,
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => {
+      this.user = user;
+    });
+
     this.route.paramMap.subscribe((params) => {
       const postIdStr = params.get('postId');
       if (postIdStr) {
         this.postId = +postIdStr;
+        this.loadPost();
       } else {
         console.error('Post ID is missing in the route parameters.');
       }
 
-      this.authService.currentUser$.subscribe((user) => {
-        this.user = user;
-        if (this.postId) {
-          this.loadPost();
-        }
-      });
+
     });
   }
 
@@ -60,21 +61,28 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   loadPost() {
-    if (this.postId) {
-      this.postService.getPostById(this.postId).subscribe((post) => {
+    this.images = []; 
+    
+    this.postService
+      .getPostById(this.postId!)
+      .pipe(take(1))
+      .subscribe((post) => {
         this.post = post;
         if (post && post.picturesIds) {
+          this.images = [];
           post.picturesIds.forEach((id) => {
-            this.pictureService.getImageById(id).subscribe((blob) => {
-              const objectURL = URL.createObjectURL(blob);
-              this.images.push(
-                this.sanitizer.bypassSecurityTrustUrl(objectURL)
-              );
-            });
+            this.pictureService
+              .getImageById(id)
+              .pipe(take(1))
+              .subscribe((blob) => {
+                const objectURL = URL.createObjectURL(blob);
+                this.images.push(
+                  this.sanitizer.bypassSecurityTrustUrl(objectURL)
+                );
+              });
           });
         }
       });
-    }
   }
 
   openImageDialog(imageSrc: any) {
@@ -101,10 +109,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   toggleStar(post: Post): void {
     this.postService.starPost(post.id).subscribe(() => {
-      if(post.stars.includes(this.user!.id)) {
-        post.stars = post.stars.filter(num => num !== this.user!.id)
+      if (post.stars.includes(this.user!.id)) {
+        post.stars = post.stars.filter((num) => num !== this.user!.id);
       } else {
-        post.stars.push(this.user!.id)
+        post.stars.push(this.user!.id);
       }
     });
   }
@@ -127,33 +135,42 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   canEditComment(comment: Comment): boolean {
-    return this.user && (comment.username === this.user.username || this.user.admin) || false;
-  }
-  
-  deleteComment(commentId: number): void {
-    this.postService.deleteComment(commentId).subscribe(() => {
-      this.loadPost();
-    }, error => {
-      console.error('Failed to delete comment:', error);
-    });
+    return (
+      (this.user &&
+        (comment.username === this.user.username || this.user.admin)) ||
+      false
+    );
   }
 
+  deleteComment(commentId: number): void {
+    this.postService.deleteComment(commentId).subscribe(
+      () => {
+        this.loadPost();
+      },
+      (error) => {
+        console.error('Failed to delete comment:', error);
+      }
+    );
+  }
 
   enableEdit(comment: Comment): void {
     comment.isEditing = true;
     comment.editText = comment.text; // temp store for the org text
   }
-  
+
   saveComment(comment: Comment): void {
     comment.text = comment.editText;
-    this.postService.editComment(comment.id, comment.text!).subscribe(() => {
-      comment.isEditing = false;
-      this.loadPost();
-    }, error => {
-      console.error('Failed to save comment:', error);
-    });
+    this.postService.editComment(comment.id, comment.text!).subscribe(
+      () => {
+        comment.isEditing = false;
+        this.loadPost();
+      },
+      (error) => {
+        console.error('Failed to save comment:', error);
+      }
+    );
   }
-  
+
   cancelEdit(comment: Comment): void {
     comment.isEditing = false;
   }
@@ -165,7 +182,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   deletePost(post: Post): void {
     if (confirm('Are you sure you want to delete this post?')) {
       this.postService.deletePost(post.id).subscribe(() => {
-        // handle response, e.g., navigate away or refresh the list
+        this.router.navigate(['/home']);
       });
     }
   }
@@ -173,5 +190,4 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   editPost(post: Post): void {
     // Logic to navigate to an edit page or open an edit dialog
   }
-
 }
