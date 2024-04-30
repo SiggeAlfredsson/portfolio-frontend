@@ -11,6 +11,7 @@ import { Comment } from '../../models/comment';
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { Subscription, take } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-post',
@@ -34,6 +35,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private dialog: MatDialog,
     private router: Router,
+    private _snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -96,8 +98,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   toggleLike(post: Post): void {
     this.postService.likePost(post.id).subscribe(() => {
       if (post.likes.includes(this.user!.id)) {
+        this.showSnackbar(`Unliked Post`);
         post.likes = post.likes.filter((num) => num !== this.user!.id);
       } else {
+        this.showSnackbar(`Liked Post`);
         post.likes.push(this.user!.id);
       }
     });
@@ -110,8 +114,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   toggleStar(post: Post): void {
     this.postService.starPost(post.id).subscribe(() => {
       if (post.stars.includes(this.user!.id)) {
+        this.showSnackbar(`Unstared Post`);
         post.stars = post.stars.filter((num) => num !== this.user!.id);
       } else {
+        this.showSnackbar(`Stared Post`);
         post.stars.push(this.user!.id);
       }
     });
@@ -128,6 +134,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     };
 
     this.postService.addComment(comment.postId, comment.text).subscribe(() => {
+      this.showSnackbar(`Comment Added`);
       this.loadPost();
     });
 
@@ -145,6 +152,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   deleteComment(commentId: number): void {
     this.postService.deleteComment(commentId).subscribe(
       () => {
+        this.showSnackbar(`Deleted Comment`);
         this.loadPost();
       },
       (error) => {
@@ -162,6 +170,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     comment.text = comment.editText;
     this.postService.editComment(comment.id, comment.text!).subscribe(
       () => {
+        this.showSnackbar(`Comment Updated`);
         comment.isEditing = false;
         this.loadPost();
       },
@@ -182,6 +191,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   deletePost(post: Post): void {
     if (confirm('Are you sure you want to delete this post?')) {
       this.postService.deletePost(post.id).subscribe(() => {
+        this.showSnackbar(`Deleted Post`);
         this.router.navigate(['/home']);
       });
     }
@@ -189,5 +199,12 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   editPost(post: Post): void {
     // Logic to navigate to an edit page or open an edit dialog
+  }
+
+  // this.showSnackbar(`message`);
+  showSnackbar(content: string) {
+    this._snackBar.open(content, '', {
+      duration: 2000,
+    });
   }
 }

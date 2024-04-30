@@ -25,7 +25,7 @@ import { HomeComponent } from './core/pages/home/home.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
-import { CreatePostComponent } from './core/pages/create-post/create-post.component';
+import { CreatePostComponent } from './core/pages/create-post/CreatePostComponent';
 import { MatCardModule } from '@angular/material/card';
 import { ViewPostComponent } from './core/pages/view-post/view-post.component';
 import { ImageDialogComponent } from './core/dialogs/image-dialog/image-dialog.component';

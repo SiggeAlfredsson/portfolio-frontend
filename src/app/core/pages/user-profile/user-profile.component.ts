@@ -8,6 +8,7 @@ import { Post } from '../../models/post';
 import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from '../../dialogs/users-dialog/users-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +29,7 @@ export class UserProfileComponent implements OnInit {
     private postService: PostService,
     private route: ActivatedRoute,
     private router: Router,
+    private _snackBar: MatSnackBar,
     public dialog: MatDialog,
   ) {}
 
@@ -139,8 +141,10 @@ export class UserProfileComponent implements OnInit {
 
     this.postService.likePost(post.id).subscribe(() => {
       if(post.likes.includes(this.loggedInUser!.id)) {
+        this.showSnackbar(`Unliked Post`);
         post.likes = post.likes.filter(num => num !== this.loggedInUser!.id)
       } else {
+        this.showSnackbar(`Liked Post`);
         post.likes.push(this.loggedInUser!.id)
       }    });
   }
@@ -154,8 +158,10 @@ export class UserProfileComponent implements OnInit {
 
     this.postService.starPost(post.id).subscribe(() => {
       if(post.stars.includes(this.loggedInUser!.id)) {
+        this.showSnackbar(`Unstared Post`);
         post.stars = post.stars.filter(num => num !== this.loggedInUser!.id)
       } else {
+        this.showSnackbar(`Stared Post`);
         post.stars.push(this.loggedInUser!.id)
       }
     });
@@ -169,9 +175,17 @@ export class UserProfileComponent implements OnInit {
     this.fetchUser();
     this.user.isFollowing = isFollowing;
     if (isFollowing) {
+      // this.showSnackbar(`Followed`);
       this.followingIds.push(userId);
     } else {
+      // this.showSnackbar(`Unfollowed`);
       this.followingIds = this.followingIds.filter((id) => id !== userId);
     }
+  }
+
+  showSnackbar(content: string) {
+    this._snackBar.open(content, '', {
+      duration: 2000,
+    });
   }
 }

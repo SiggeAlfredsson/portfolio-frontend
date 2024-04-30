@@ -8,7 +8,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './core/pages/home/home.component';
 import { DiscoverUsersComponent } from './core/pages/discover-users/discover-users.component';
 import { UserProfileComponent } from './core/pages/user-profile/user-profile.component';
-import { CreatePostComponent } from './core/pages/create-post/create-post.component';
+import { CreatePostComponent } from './core/pages/create-post/CreatePostComponent';
 import { ViewPostComponent } from './core/pages/view-post/view-post.component';
 
 const routes: Routes = [

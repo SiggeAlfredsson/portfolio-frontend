@@ -34,6 +34,7 @@ export class LoginComponent {
   
     this.authService.login(usernameValue, this.password).subscribe((loginSuccess) => {
       if (loginSuccess) {
+        this.showSnackbar(`Login successful`);
         setTimeout(() => {
           this.router.navigate(['/home']);
         }, 2000);
@@ -47,4 +48,10 @@ export class LoginComponent {
       }
     });
   }
+
+    showSnackbar(content: string) {
+      this._snackBar.open(content, '', {
+        duration: 2000,
+      });
+    }
 }
