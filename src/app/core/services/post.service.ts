@@ -61,6 +61,14 @@ export class PostService {
     return this.http.post(this.url, formData, this.getHttpOptions());
   }
 
+  updatePost(id: number, post: Post): Observable<any> {
+    const url = `${this.url}/${id}`;
+    return this.http
+      .put(url, post, this.getHttpOptions())
+      .pipe(catchError(this.handleError<any>('editPost')));
+
+  }
+
   deletePost(id: number): Observable<any> {
     const url = `${this.url}/${id}`;
     return this.http

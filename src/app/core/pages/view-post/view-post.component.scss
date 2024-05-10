@@ -138,3 +138,10 @@ button {
 .comment-text {
   display: block; // Ensure the comment text is on a new line if needed
 }
+
+.edit-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box; /* Adds padding and border to the element's total width and height */
+}

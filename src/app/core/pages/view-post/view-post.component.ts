@@ -12,6 +12,7 @@ import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { Subscription, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-view-post',
@@ -23,6 +24,12 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   images: SafeUrl[] = [];
   newCommentText: string = '';
   postId?: number;
+
+  //edit stuff
+  isEditingPost: boolean = false;
+  editTitle: FormControl = new FormControl('');
+  editDescription: FormControl = new FormControl('');
+  editPhotos: File[] = [];
 
   user: User | null = null;
   private userSubscription!: Subscription;
@@ -180,7 +187,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     );
   }
 
-  cancelEdit(comment: Comment): void {
+  cancelCommentEdit(comment: Comment): void {
     comment.isEditing = false;
   }
 
@@ -197,8 +204,35 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  editPost(post: Post): void {
-    // Logic to navigate to an edit page or open an edit dialog
+  enablePostEdit(): void {
+    this.isEditingPost = true;
+    this.editTitle.setValue(this.post.title);
+    this.editDescription.setValue(this.post.description);
+    // Photos are handled separately as File list
+  }
+
+  savePostChanges(): void {
+    if (!this.post) return;
+    const updatedPost = {
+      ...this.post,
+      title: this.editTitle.value,
+      description: this.editDescription.value,
+      // Photos handling can be implemented here
+    };
+    this.postService.updatePost(this.post.id, updatedPost).subscribe({
+      next: (response) => {
+        this.loadPost();
+        this.isEditingPost = false;
+        this.showSnackbar('Post updated successfully');
+      },
+      error: () => {
+        this.showSnackbar('Failed to update post');
+      }
+    });
+  }
+
+  cancelPostEdit(): void {
+    this.isEditingPost = false;
   }
 
   // this.showSnackbar(`message`);

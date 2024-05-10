@@ -3,12 +3,24 @@
     <span>{{ post.username }}'s Post </span>
     <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
     <span *ngIf="canModifyPost()">
-      <mat-icon (click)="editPost(post)" aria-label="Edit post" style="margin-right: 10px; cursor: pointer;">edit</mat-icon>
+      <mat-icon (click)="enablePostEdit()" aria-label="Edit post" style="margin-right: 10px; cursor: pointer;">edit</mat-icon>
       <mat-icon (click)="deletePost(post)" aria-label="Delete post" style="cursor: pointer;">delete</mat-icon>
     </span>
   </div>
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.description }}</p>
+
+
+  <div *ngIf="isEditingPost">
+    <input [(ngModel)]="editTitle.value" [formControl]="editTitle" class="edit-input">
+    <textarea [(ngModel)]="editDescription.value" [formControl]="editDescription" class="edit-input"></textarea>
+    <!-- Photo Editing (Add/Delete) could be handled here -->
+    <button (click)="savePostChanges()">Save Changes</button>
+    <button (click)="cancelPostEdit()">Cancel</button>
+  </div>
+
+  <div *ngIf="!isEditingPost">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.description }}</p>
+  </div>
 
   <div *ngFor="let image of images">
     <img [src]="image" (click)="openImageDialog(image)" alt="Post Image" />
@@ -56,7 +68,7 @@
           [placeholder]="comment.text"
         />
         <button mat-button (click)="saveComment(comment)">Save</button>
-        <button mat-button (click)="cancelEdit(comment)">Cancel</button>
+        <button mat-button (click)="cancelCommentEdit(comment)">Cancel</button>
       </div>
     </div>
   </div>
