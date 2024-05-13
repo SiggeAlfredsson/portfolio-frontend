@@ -145,3 +145,13 @@ button {
   margin-top: 5px;
   box-sizing: border-box; /* Adds padding and border to the element's total width and height */
 }
+
+.btn-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.padding {
+  width: 100%;
+}
+
