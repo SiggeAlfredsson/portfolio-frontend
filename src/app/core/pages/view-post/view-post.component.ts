@@ -141,17 +141,23 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   submitComment(): void {
-    const comment = {
-      postId: this.post.id,
-      text: this.newCommentText,
-    };
+    if (this.user) {
+      const comment = {
+        postId: this.post.id,
+        text: this.newCommentText,
+      };
 
-    this.postService.addComment(comment.postId, comment.text).subscribe(() => {
-      this.showSnackbar(`Comment Added`);
-      this.loadPost();
-    });
+      this.postService
+        .addComment(comment.postId, comment.text)
+        .subscribe(() => {
+          this.showSnackbar(`Comment Added`);
+          this.loadPost();
+        });
 
-    this.newCommentText = '';
+      this.newCommentText = '';
+    } else {
+      this.showSnackbar('Sign in to comment');
+    }
   }
 
   canEditComment(comment: Comment): boolean {
