@@ -129,7 +129,11 @@ export class HomeComponent implements OnInit {
   }
 
   isLikedByUser(post: Post): boolean {
-    return post.likes.includes(this.loggedInUser!.id) ?? false;
+    if (this.loggedInUser){
+      return post.likes.includes(this.loggedInUser.id)
+    } else {
+      return false;
+    }
   }
 
   toggleStar(post: Post): void {
@@ -145,8 +149,11 @@ export class HomeComponent implements OnInit {
   }
 
   isStaredByUser(post: Post): boolean {
-    return post.stars.includes(this.loggedInUser!.id) ?? false;
-  }
+    if (this.loggedInUser){
+      return post.stars.includes(this.loggedInUser.id)
+    } else {
+      return false;
+    }  }
 
   openImageDialog(imageSrc: any) {
     console.log(imageSrc);
