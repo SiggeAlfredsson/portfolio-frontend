@@ -39,7 +39,11 @@ export class RegisterComponent {
         this._snackBar.open('Registration successful', 'Close', {
           duration: 3000
         });
-        this.router.navigate(['/login']);
+        this.authService.login(usernameValue, this.password).subscribe((res) => {
+          if (res) {
+            this.router.navigate(['/home']);
+          }
+        })
       } else {
         this.password = '';
         this._snackBar.open('Registration failed', 'Close', {
