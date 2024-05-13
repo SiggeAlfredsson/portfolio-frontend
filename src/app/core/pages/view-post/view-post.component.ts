@@ -42,7 +42,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private dialog: MatDialog,
     private router: Router,
-    private _snackBar: MatSnackBar,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +58,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       } else {
         console.error('Post ID is missing in the route parameters.');
       }
-
-
     });
   }
 
@@ -70,8 +68,8 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   loadPost() {
-    this.images = []; 
-    
+    this.images = [];
+
     this.postService
       .getPostById(this.postId!)
       .pipe(take(1))
@@ -103,15 +101,19 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   toggleLike(post: Post): void {
-    this.postService.likePost(post.id).subscribe(() => {
-      if (post.likes.includes(this.user!.id)) {
-        this.showSnackbar(`Unliked Post`);
-        post.likes = post.likes.filter((num) => num !== this.user!.id);
-      } else {
-        this.showSnackbar(`Liked Post`);
-        post.likes.push(this.user!.id);
-      }
-    });
+    if (this.user) {
+      this.postService.likePost(post.id).subscribe(() => {
+        if (post.likes.includes(this.user!.id)) {
+          this.showSnackbar(`Unliked Post`);
+          post.likes = post.likes.filter((num) => num !== this.user!.id);
+        } else {
+          this.showSnackbar(`Liked Post`);
+          post.likes.push(this.user!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to like post');
+    }
   }
 
   isLikedByUser(): boolean {
@@ -119,15 +121,19 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   toggleStar(post: Post): void {
-    this.postService.starPost(post.id).subscribe(() => {
-      if (post.stars.includes(this.user!.id)) {
-        this.showSnackbar(`Unstared Post`);
-        post.stars = post.stars.filter((num) => num !== this.user!.id);
-      } else {
-        this.showSnackbar(`Stared Post`);
-        post.stars.push(this.user!.id);
-      }
-    });
+    if (this.user) {
+      this.postService.starPost(post.id).subscribe(() => {
+        if (post.stars.includes(this.user!.id)) {
+          this.showSnackbar(`Unstared Post`);
+          post.stars = post.stars.filter((num) => num !== this.user!.id);
+        } else {
+          this.showSnackbar(`Stared Post`);
+          post.stars.push(this.user!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to star post');
+    }
   }
 
   isStaredByUser(): boolean {
@@ -227,7 +233,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.showSnackbar('Failed to update post');
-      }
+      },
     });
   }
 

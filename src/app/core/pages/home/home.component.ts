@@ -117,43 +117,56 @@ export class HomeComponent implements OnInit {
   }
 
   toggleLike(post: Post): void {
-    this.postService.likePost(post.id).subscribe(() => {
-      if (post.likes.includes(this.loggedInUser!.id)) {
-        this.showSnackbar(`Unliked Post`);
-        post.likes = post.likes.filter((num) => num !== this.loggedInUser!.id);
-      } else {
-        this.showSnackbar(`Liked Post`);
-        post.likes.push(this.loggedInUser!.id);
-      }
-    });
+    if (this.loggedInUser) {
+      this.postService.likePost(post.id).subscribe(() => {
+        if (post.likes.includes(this.loggedInUser!.id)) {
+          this.showSnackbar(`Unliked Post`);
+          post.likes = post.likes.filter(
+            (num) => num !== this.loggedInUser!.id
+          );
+        } else {
+          this.showSnackbar(`Liked Post`);
+          post.likes.push(this.loggedInUser!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to like post');
+    }
   }
 
   isLikedByUser(post: Post): boolean {
-    if (this.loggedInUser){
-      return post.likes.includes(this.loggedInUser.id)
+    if (this.loggedInUser) {
+      return post.likes.includes(this.loggedInUser.id);
     } else {
       return false;
     }
   }
 
   toggleStar(post: Post): void {
-    this.postService.starPost(post.id).subscribe(() => {
-      if (post.stars.includes(this.loggedInUser!.id)) {
-        this.showSnackbar(`Unstared Post`);
-        post.stars = post.stars.filter((num) => num !== this.loggedInUser!.id);
-      } else {
-        this.showSnackbar(`Stared Post`);
-        post.stars.push(this.loggedInUser!.id);
-      }
-    });
+    if (this.loggedInUser) {
+      this.postService.starPost(post.id).subscribe(() => {
+        if (post.stars.includes(this.loggedInUser!.id)) {
+          this.showSnackbar(`Unstared Post`);
+          post.stars = post.stars.filter(
+            (num) => num !== this.loggedInUser!.id
+          );
+        } else {
+          this.showSnackbar(`Stared Post`);
+          post.stars.push(this.loggedInUser!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to star post');
+    }
   }
 
   isStaredByUser(post: Post): boolean {
-    if (this.loggedInUser){
-      return post.stars.includes(this.loggedInUser.id)
+    if (this.loggedInUser) {
+      return post.stars.includes(this.loggedInUser.id);
     } else {
       return false;
-    }  }
+    }
+  }
 
   openImageDialog(imageSrc: any) {
     console.log(imageSrc);
