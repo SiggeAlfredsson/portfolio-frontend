@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -91,30 +91,34 @@ export class UserProfileComponent implements OnInit {
   }
 
   showFollowers(): void {
-    this.userService.convertIdsToUsers(this.user.followersIds).pipe(take(1)).subscribe((users) => {
-      this.dialog.open(UsersDialogComponent, {
-        data: { 
-          title: 'Followers',
-          users: users
-        }
+    this.userService
+      .convertIdsToUsers(this.user.followersIds)
+      .pipe(take(1))
+      .subscribe((users) => {
+        this.dialog.open(UsersDialogComponent, {
+          data: {
+            title: 'Followers',
+            users: users,
+          },
+        });
       });
-    })
   }
 
   showFollowing(): void {
-    this.userService.convertIdsToUsers(this.user.followingsIds).pipe(take(1)).subscribe((users) => {
-      this.dialog.open(UsersDialogComponent, {
-        data: { 
-          title: 'Following',
-          users: users
-        }
+    this.userService
+      .convertIdsToUsers(this.user.followingsIds)
+      .pipe(take(1))
+      .subscribe((users) => {
+        this.dialog.open(UsersDialogComponent, {
+          data: {
+            title: 'Following',
+            users: users,
+          },
+        });
       });
-    })
   }
 
-  showStaredPosts() {
-
-  }
+  showStaredPosts() {}
 
   toggleFollow(user: User): void {
     if (user.isFollowing) {
@@ -124,13 +128,15 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  followUser(followId: number): void { //unsub
+  followUser(followId: number): void {
+    //unsub
     this.userService.followUser(followId).subscribe(() => {
       this.updateFollowStatus(followId, true);
     });
   }
 
-  unFollowUser(followId: number): void { //unsub
+  unFollowUser(followId: number): void {
+    //unsub
     this.userService.unFollowUser(followId).subscribe(() => {
       this.updateFollowStatus(followId, false);
     });
@@ -139,36 +145,57 @@ export class UserProfileComponent implements OnInit {
   toggleLike(post: Post, event: MouseEvent): void {
     event.stopPropagation();
 
-    this.postService.likePost(post.id).subscribe(() => {
-      if(post.likes.includes(this.loggedInUser!.id)) {
-        this.showSnackbar(`Unliked Post`);
-        post.likes = post.likes.filter(num => num !== this.loggedInUser!.id)
-      } else {
-        this.showSnackbar(`Liked Post`);
-        post.likes.push(this.loggedInUser!.id)
-      }    });
+    if (this.loggedInUser) {
+      this.postService.likePost(post.id).subscribe(() => {
+        if (post.likes.includes(this.loggedInUser!.id)) {
+          this.showSnackbar(`Unliked Post`);
+          post.likes = post.likes.filter(
+            (num) => num !== this.loggedInUser!.id
+          );
+        } else {
+          this.showSnackbar(`Liked Post`);
+          post.likes.push(this.loggedInUser!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to like post');
+    }
   }
 
   isLikedByUser(post: Post): boolean {
-    return post.likes.includes(this.loggedInUser!.id) ?? false;
+    if (this.loggedInUser) {
+      return post.likes.includes(this.loggedInUser.id);
+    } else {
+      return false;
+    }
   }
 
-  toggleStar(post: Post,  event: MouseEvent): void {
+  toggleStar(post: Post, event: MouseEvent): void {
     event.stopPropagation();
 
-    this.postService.starPost(post.id).subscribe(() => {
-      if(post.stars.includes(this.loggedInUser!.id)) {
-        this.showSnackbar(`Unstared Post`);
-        post.stars = post.stars.filter(num => num !== this.loggedInUser!.id)
-      } else {
-        this.showSnackbar(`Stared Post`);
-        post.stars.push(this.loggedInUser!.id)
-      }
-    });
+    if (this.loggedInUser) {
+      this.postService.starPost(post.id).subscribe(() => {
+        if (post.stars.includes(this.loggedInUser!.id)) {
+          this.showSnackbar(`Unstared Post`);
+          post.stars = post.stars.filter(
+            (num) => num !== this.loggedInUser!.id
+          );
+        } else {
+          this.showSnackbar(`Stared Post`);
+          post.stars.push(this.loggedInUser!.id);
+        }
+      });
+    } else {
+      this.showSnackbar('Sign in to star post');
+    }
   }
 
   isStaredByUser(post: Post): boolean {
-    return post.stars.includes(this.loggedInUser!.id) ?? false;    
+    if (this.loggedInUser) {
+      return post.stars.includes(this.loggedInUser.id);
+    } else {
+      return false;
+    }
   }
 
   updateFollowStatus(userId: number, isFollowing: boolean): void {
