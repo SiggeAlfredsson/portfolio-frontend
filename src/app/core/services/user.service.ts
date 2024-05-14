@@ -24,8 +24,22 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  updateUser(user: User): Observable<User> {
+    const url = `${this.url}/${user.id}`;
+    return this.http
+      .put<User>(url, user, this.getHttpOptions())
+      .pipe(catchError(this.handleError<User>('updateUser')));
+  }
+
   getUserByUsername(username: string): Observable<User> {
     const url = `${this.url}/username/${username}`;
+    return this.http
+      .get<User>(url)
+      .pipe(catchError(this.handleError<User>('getUser')));
+  }
+
+  getUserById(userId: number): Observable<User> {
+    const url = `${this.url}/${userId}`;
     return this.http
       .get<User>(url)
       .pipe(catchError(this.handleError<User>('getUser')));

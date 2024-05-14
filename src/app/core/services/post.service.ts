@@ -32,10 +32,10 @@ export class PostService {
       .pipe(catchError(this.handleError<Post>('getPostById')));
   }
 
-  getUserPosts(username: string): Observable<Post[]> {
+  getUserPosts(userId: number): Observable<Post[]> {
     return this.http
-      .get<Post[]>(`${this.url}/user/${username}`, this.getHttpOptions())
-      .pipe(catchError(this.handleError<Post[]>('getPostsByUsername')));
+      .get<Post[]>(`${this.url}/user/${userId}`, this.getHttpOptions())
+      .pipe(catchError(this.handleError<Post[]>('getPostsByUserId')));
   }
 
   getPublicPosts(page: number, size: number = 10): Observable<any> {

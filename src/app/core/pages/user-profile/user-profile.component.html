@@ -24,11 +24,16 @@
             (loggedInUser && loggedInUser.username == user.username) ||
             (loggedInUser && loggedInUser.admin == true)
           "
-          (click)="editUser()"
+          (click)="openEditProfileModal()"
           class="edit-btn"
         >
           Edit
         </button>
+        <app-edit-profile-dialog
+          *ngIf="isEditProfileModalOpen"
+          [user]="user"
+          (close)="closeEditProfileModal()"
+        ></app-edit-profile-dialog>
       </div>
       <p>Last seen: {{ user.lastSeen | date : "short" }}</p>
       <p>Registered: {{ user.registeredAt | date : "mediumDate" }}</p>

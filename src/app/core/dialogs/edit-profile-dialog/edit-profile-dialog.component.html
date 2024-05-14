@@ -1,0 +1,31 @@
+<div class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Edit Profile</h2>
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <img
+              [src]="'http://localhost:8091/api/pictures/user/' + user.id"
+              alt="user picture"
+              class="profile-picture"
+            />
+            <button mat-raised-button color="primary" type="button" (click)="editProfilePicture()">Upload Pciture</button>
+          </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" class="description"></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" (click)="closeModal()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+    </form>
+    </div>
+  </div>
+  

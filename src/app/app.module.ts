@@ -32,6 +32,7 @@ import { UsersDialogComponent } from './core/dialogs/users-dialog/users-dialog.c
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreatePostComponent } from './core/pages/create-post/create-post.component';
+import { EditProfileDialogComponent } from './core/dialogs/edit-profile-dialog/edit-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CreatePostComponent } from './core/pages/create-post/create-post.compon
     ViewPostComponent,
     ImageDialogComponent,
     UsersDialogComponent,
+    EditProfileDialogComponent,
 
   ],
   imports: [

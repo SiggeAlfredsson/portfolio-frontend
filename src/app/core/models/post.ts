@@ -7,7 +7,7 @@ export interface Post {
   private: boolean;
   createdAt: Date;
   username: string;
-
+  userId: number;
   picturesIds: number[];
   
   likes: number[];

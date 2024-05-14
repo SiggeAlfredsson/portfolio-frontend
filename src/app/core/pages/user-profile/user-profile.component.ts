@@ -66,7 +66,7 @@ export class UserProfileComponent implements OnInit {
           next: (user) => {
             this.user = user;
             this.user.isFollowing = this.followingIds.includes(user.id);
-            this.loadPosts(user.username);
+            this.loadPosts(user.id);
           },
           error: (error) =>
             console.error('Failed to load user profile:', error),
@@ -74,14 +74,14 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.userService.getUserByUsername(this.username!).subscribe((user) => {
         this.user = user;
-        this.loadPosts(user.username);
+        this.loadPosts(user.id);
       });
     }
     // Get the followings first and then load the user profile
   }
 
-  loadPosts(username: string) {
-    this.postService.getUserPosts(username).subscribe((posts) => {
+  loadPosts(userId: number) {
+    this.postService.getUserPosts(userId).subscribe((posts) => {
       this.posts = posts;
     });
   }
@@ -211,8 +211,20 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-  editUser() {
-    // open modal for this?
+  isEditProfileModalOpen = false;
+
+  openEditProfileModal() {
+    this.isEditProfileModalOpen = true;
+  }
+
+  closeEditProfileModal() {
+    this.isEditProfileModalOpen = false;
+  }
+
+  updateUser(updatedUser: User) {
+    console.log(updatedUser)
+    // this.user = updatedUser;
+    // You might also want to save the updated user data to your backend here
   }
 
   showSnackbar(content: string) {

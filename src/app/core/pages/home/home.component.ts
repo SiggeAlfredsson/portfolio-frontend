@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../models/user';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
     private dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
+    private userService: UserService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -59,6 +61,10 @@ export class HomeComponent implements OnInit {
       this.notEmptyPost = !!res.content.length;
       this.page++;
       this.posts.forEach((post) => {
+        this.userService.getUserById(post.userId).subscribe((user) => {
+          post.username = user.username;
+        });
+
         if (post.picturesIds) {
           this.images[post.id] = [];
           post.picturesIds.forEach((id) => {
@@ -101,6 +107,12 @@ export class HomeComponent implements OnInit {
 
         // now it loads for all images but should only load for new, to lazy rn to fix
         this.posts.forEach((post) => {
+
+          this.userService.getUserById(post.userId).subscribe((user) => {
+            post.username = user.username;
+          });
+
+
           if (post.picturesIds) {
             this.images[post.id] = [];
             post.picturesIds.forEach((id) => {
@@ -117,6 +129,7 @@ export class HomeComponent implements OnInit {
   }
 
   toggleLike(post: Post): void {
+    console.log(post)
     if (this.loggedInUser) {
       this.postService.likePost(post.id).subscribe(() => {
         if (post.likes.includes(this.loggedInUser!.id)) {
