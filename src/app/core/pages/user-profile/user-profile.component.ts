@@ -210,6 +210,11 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+
+  editUser() {
+    // open modal for this?
+  }
+
   showSnackbar(content: string) {
     this._snackBar.open(content, '', {
       duration: 2000,

@@ -6,18 +6,30 @@
       class="profile-picture"
     />
     <div class="user-info">
-      <h2>{{ user.username }}</h2>
-      <button
-        *ngIf="loggedInUser && loggedInUser.username !== user.username"
-        (click)="toggleFollow(user)"
-        [ngClass]="{
-          'follow-btn': true,
-          follow: !user.isFollowing,
-          unfollow: user.isFollowing
-        }"
-      >
-        {{ user.isFollowing ? "Unfollow" : "Follow" }}
-      </button>
+      <div class="row">
+        <h2>{{ user.username }}</h2>
+        <button
+          *ngIf="loggedInUser && loggedInUser.username !== user.username"
+          (click)="toggleFollow(user)"
+          [ngClass]="{
+            'follow-btn': true,
+            follow: !user.isFollowing,
+            unfollow: user.isFollowing
+          }"
+        >
+          {{ user.isFollowing ? "Unfollow" : "Follow" }}
+        </button>
+        <button
+          *ngIf="
+            (loggedInUser && loggedInUser.username == user.username) ||
+            (loggedInUser && loggedInUser.admin == true)
+          "
+          (click)="editUser()"
+          class="edit-btn"
+        >
+          Edit
+        </button>
+      </div>
       <p>Last seen: {{ user.lastSeen | date : "short" }}</p>
       <p>Registered: {{ user.registeredAt | date : "mediumDate" }}</p>
       <p>Description: {{ user.description }}</p>
@@ -29,12 +41,10 @@
       {{ user.followersIds.length }}
     </div>
     <div (click)="showFollowing()" class="pointer">
-      <span>Following: </span
-      >{{ user.followingsIds.length }}
+      <span>Following: </span>{{ user.followingsIds.length }}
     </div>
     <div (click)="showStaredPosts()" class="pointer">
-      <span>Stared posts: </span
-      >{{ user.starredPostsIds.length }}
+      <span>Stared posts: </span>{{ user.starredPostsIds.length }}
     </div>
   </div>
   <div class="post-list">
@@ -51,16 +61,19 @@
             <span>{{ post.comments.length }}</span>
           </span>
           <span class="interaction" (click)="toggleLike(post, $event)">
-            <mat-icon [ngClass]="{ liked: isLikedByUser(post) }">thumb_up</mat-icon>
+            <mat-icon [ngClass]="{ liked: isLikedByUser(post) }"
+              >thumb_up</mat-icon
+            >
             {{ post.likes.length || 0 }}
           </span>
           <span class="interaction" (click)="toggleStar(post, $event)">
-            <mat-icon [ngClass]="{ stared: isStaredByUser(post) }">star</mat-icon>
+            <mat-icon [ngClass]="{ stared: isStaredByUser(post) }"
+              >star</mat-icon
+            >
             {{ post.stars.length || 0 }}
           </span>
         </div>
       </li>
-      
     </ul>
   </div>
 </div>

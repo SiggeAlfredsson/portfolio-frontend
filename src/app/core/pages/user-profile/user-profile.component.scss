@@ -1,111 +1,126 @@
 .profile {
-    width: 80%;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .profile-picture {
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
-    margin-right: 20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  margin-right: 20px;
 }
 
 .user-info h2 {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .social-stats {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
 }
 
 .social-stats div {
-    text-align: center;
+  text-align: center;
 }
 
 .post-list ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .post-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-.follow-btn {
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    color: white;
-    border-radius: 4px;
-    font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .follow {
-    background-color: blue;
+  background-color: blue;
 }
 
 .unfollow {
-    background-color: red;
+  background-color: red;
+}
+
+.edit-btn {
+  background-color: grey;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row h2 {
+  margin: 0;
+}
+
+.row button {
+  padding: 5px 10px;
+  // margin-left: 5px;
+  margin-left: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
 .post-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .post-list li {
-    cursor: pointer;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .post-list li:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .post-title {
-    font-weight: bold;
-  }
-  
-  .post-description {
-    color: #666;
-    font-size: 0.9rem;
-  }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.post-list li {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
-  .post-interactions {
+.post-list li:hover {
+  background-color: #f9f9f9;
+}
+
+.post-title {
+  font-weight: bold;
+}
+
+.post-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.post-interactions {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 15px;
+
+  .interaction {
     display: flex;
-    justify-content: start;
     align-items: center;
-    margin-top: 15px;
-  
-    .interaction {
-      display: flex;
-      align-items: center;
-      margin-right: 20px;
-      cursor: pointer;
-  
-      mat-icon {
-        margin-right: 5px;
-      }
+    margin-right: 20px;
+    cursor: pointer;
+
+    mat-icon {
+      margin-right: 5px;
     }
   }
+}
 
-  .pointer {
-    cursor: pointer;
-  }
+.pointer {
+  cursor: pointer;
+}
