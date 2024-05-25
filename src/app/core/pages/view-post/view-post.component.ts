@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription, take } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-view-post',
@@ -38,6 +39,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private postService: PostService,
     private authService: AuthService,
+    private userService: UserService,
     private pictureService: PictureService,
     private sanitizer: DomSanitizer,
     private dialog: MatDialog,
@@ -74,6 +76,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       .getPostById(this.postId!)
       .pipe(take(1))
       .subscribe((post) => {
+        this.userService.getUserById(post.userId).subscribe((user) => {
+          post.username = user.username;
+        });
         this.post = post;
         if (post && post.picturesIds) {
           this.images = [];
