@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../models/user';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +23,32 @@ export class UserService {
     return { headers };
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+
+  ) {}
 
   updateUser(user: User): Observable<User> {
-    const url = `${this.url}/${user.id}`;
+    const url = `${this.url}/update/${user.id}`;
     return this.http
-      .put<User>(url, user, this.getHttpOptions())
-      .pipe(catchError(this.handleError<User>('updateUser')));
+      .put<any>(url, user, this.getHttpOptions())
+      .pipe(
+        tap(response => {
+          if (response && response.token) {
+            // Update the token in local storage and current user
+            localStorage.setItem('token', response.token);
+            this.authService.validateJwtToken(response.token).subscribe();
+            return response.user;
+          } else {
+            return response; // if no token is included, the response is just the user
+          }
+        }),
+        map(response => response.user || response), // handle both cases
+        catchError(this.handleError<User>('updateUser'))
+      );
   }
+  
 
   getUserByUsername(username: string): Observable<User> {
     const url = `${this.url}/username/${username}`;

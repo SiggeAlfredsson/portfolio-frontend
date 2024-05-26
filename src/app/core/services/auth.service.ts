@@ -67,11 +67,8 @@ export class AuthService {
           return true;
         }),
         catchError(error => {
-          if (error.status === 401) {
-            this.logout()
-            return of(false);
-          }
-          throw error;
+          this.logout()
+          return of(false);
         })
       );
   }

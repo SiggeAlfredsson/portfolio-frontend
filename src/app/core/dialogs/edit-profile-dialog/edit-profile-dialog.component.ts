@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../../models/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -15,7 +17,9 @@ export class EditProfileDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private userService: UserService,
+    private authService: AuthService,
   ) {
     this.postForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -39,14 +43,13 @@ export class EditProfileDialogComponent implements OnInit {
       this.user.username = this.postForm.get('username')?.value;
       this.user.description = this.postForm.get('description')?.value;
 
-      // this.userChange.emit(this.user); 
-
-      // call api from here instead
-
+      this.userService.updateUser(this.user).subscribe(()=> {
       this._snackBar.open('Profile updated successfully!', 'Close', {
         duration: 3000
-      });
-      this.closeModal();
+      });    
+        this.closeModal();
+      })
+      // add error handling
     }
   }
 
