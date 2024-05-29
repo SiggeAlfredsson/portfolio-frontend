@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { environment } from '../../../../enviroments/enviroment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-discover-users',

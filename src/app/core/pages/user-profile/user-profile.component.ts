@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from '../../dialogs/users-dialog/users-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../../../enviroments/enviroment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-profile',

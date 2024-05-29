@@ -30,6 +30,7 @@
     "@angular/compiler-cli": "^17.0.0",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.9.3",
+    "angular-cli-ghpages": "^2.0.0",
     "css-loader": "^6.8.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
