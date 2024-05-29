@@ -1,8 +1,8 @@
 <div class="profile" *ngIf="user">
   <div class="profile-header">
     <img
-      [src]="'http://localhost:8091/api/pictures/user/' + user.id"
-      alt="user picture"
+    [src]="apiUrl + '/pictures/user/' + user.id"
+    alt="user picture"
       class="profile-picture"
     />
     <div class="user-info">

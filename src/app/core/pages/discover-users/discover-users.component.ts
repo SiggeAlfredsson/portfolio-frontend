@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Component({
   selector: 'app-discover-users',
@@ -11,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./discover-users.component.scss'],
 })
 export class DiscoverUsersComponent implements OnInit {
+  apiUrl: string = environment.pictureApi;
+
   users: User[] = [];
   filteredUsers: User[] = [];
   followingIds: number[] = [];

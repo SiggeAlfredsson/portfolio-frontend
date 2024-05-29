@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from '../../dialogs/users-dialog/users-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,6 +17,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
+  apiUrl: string = environment.pictureApi;
+
   username: string | null = null;
   followingIds: number[] = [];
   user!: User;

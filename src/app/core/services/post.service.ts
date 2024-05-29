@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
 import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  private url = 'http://localhost:8092/api/posts'
+  private url = `${environment.postApi}/posts`;
 
   private getHttpOptions() {
     const token = localStorage.getItem('token');

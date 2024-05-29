@@ -4,7 +4,7 @@
     </div>
     <div class="user-card-container">
         <div class="user-card" *ngFor="let user of filteredUsers" (click)="goToUserProfile(user.username)">
-            <img [src]="'http://localhost:8091/api/pictures/user/' + user.id" alt="user picture" class="user-image">
+            <img [src]="apiUrl + '/pictures/user/' + user.id" alt="user picture" class="user-image">
             <div class="user-info">
                 <h3>{{ user.username }}</h3>
                 <div class="user-stats">

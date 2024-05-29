@@ -6,8 +6,8 @@
 
         <div class="form-group">
             <img
-              [src]="'http://localhost:8091/api/pictures/user/' + user.id"
-              alt="user picture"
+            [src]="apiUrl + '/pictures/user/' + user.id"
+            alt="user picture"
               class="profile-picture"
             />
             <button mat-raised-button color="primary" type="button" (click)="editProfilePicture()">Upload Pciture</button>

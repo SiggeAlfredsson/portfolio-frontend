@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private url = 'http://localhost:8090/api/users';
+  private url = `${environment.userApi}/users`;
 
   private getHttpOptions() {
     const token = localStorage.getItem('token');

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -11,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./edit-profile-dialog.component.scss'] // Corrected property name
 })
 export class EditProfileDialogComponent implements OnInit {
+  apiUrl: string = environment.pictureApi;
+
   @Input() user!: User;
   @Output() close = new EventEmitter<void>();
   postForm: FormGroup;
