@@ -18,7 +18,7 @@ git clone https://github.com/SiggeAlfredsson/ezefleet-webportal-frontend
 ```
 Run Angular App (requires nodejs & Angular cli)
 ```bash
-cd ezefleet-webportal-frontend
+cd portfolio-frontend
 
 npm install
 
