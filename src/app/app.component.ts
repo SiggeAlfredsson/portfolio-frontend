@@ -4,7 +4,6 @@ import { ThemeService } from './core/services/theme.service';
 import { Router } from '@angular/router';
 import { User } from './core/models/user';
 import { Subscription, take } from 'rxjs';
-import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -41,11 +40,11 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    window.location.href = `${environment.baseHref}login`;
+    window.location.href = '/login';
   }
 
   register() {
-    window.location.href = `${environment.baseHref}register`;
+    window.location.href = '/register';
   }
 
   logout() {
