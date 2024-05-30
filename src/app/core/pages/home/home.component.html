@@ -18,8 +18,8 @@
     <h2>{{ post.title }}</h2>
     <p class="post-description">{{ post.description }}</p>
 
-    <div *ngFor="let image of images[post.id]">
-      <img [src]="image" (click)="openImageDialog(image)" alt="Post image" />
+    <div *ngFor="let image of images[post.id]" class="images">
+      <img [src]="image" (click)="openImageDialog(image)" alt="Post image" class="postImg" />
     </div>
 
     <div class="post-footer">

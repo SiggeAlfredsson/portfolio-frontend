@@ -86,10 +86,16 @@
   width: 53%;
 }
 
-img {
+.images {
+  display: inline;
+}
+
+.postImg {
+  margin: 10px;
   max-width: 200px;
   max-height: 200px;
   cursor: pointer;
+  border: 1px solid black;
 }
 
 .userImg {

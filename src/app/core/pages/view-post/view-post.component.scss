@@ -168,8 +168,10 @@ button {
 }
 
 .postImg {
-  max-width: 200px;
-  max-height: 200px;
+  margin: 10px;
+  max-width: 500px;
+  max-height: 300px;
   cursor: pointer;
+  border: 1px solid black;
 }
 
