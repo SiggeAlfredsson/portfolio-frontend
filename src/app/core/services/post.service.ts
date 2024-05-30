@@ -63,6 +63,7 @@ export class PostService {
   }
 
   updatePost(id: number, post: Post): Observable<any> {
+    post.comments = [];
     const url = `${this.url}/${id}`;
     return this.http
       .put(url, post, this.getHttpOptions())
