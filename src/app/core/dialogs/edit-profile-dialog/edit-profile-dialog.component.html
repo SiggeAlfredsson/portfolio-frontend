@@ -13,6 +13,7 @@
             <button mat-raised-button color="primary" type="button" (click)="editProfilePicture()">Upload Pciture</button>
           </div>
 
+        <div class="sean">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" required />
@@ -22,7 +23,7 @@
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description" class="description"></textarea>
         </mat-form-field>
-
+      </div>
         <button mat-raised-button color="warn" (click)="closeModal()">Cancel</button>
         <button mat-raised-button color="primary" type="submit">Save</button>
     </form>
