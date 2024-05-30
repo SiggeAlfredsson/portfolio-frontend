@@ -14,7 +14,7 @@ npm install -g @angular/cli
 
 Clone the repo (requires git)
 ```bash
-git clone https://github.com/SiggeAlfredsson/ezefleet-webportal-frontend
+git clone https://github.com/SiggeAlfredsson/portfolio-frontend
 ```
 Run Angular App (requires nodejs & Angular cli)
 ```bash
@@ -25,7 +25,7 @@ npm install
 ng serve --open
 ```
 
-Ng serve locally with prod config 
+Ng serve locally with prod config
 ```bash
 ng serve --host 0.0.0.0 --port 9999 --configuration=production
 ```
