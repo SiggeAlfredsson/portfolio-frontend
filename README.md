@@ -6,6 +6,7 @@ TODO
 - se list of stared and liked posts
 - Add delete profile option
 - If return on view post to home it loads every post twice? Unsure why, might have with infinity scroll nexttoken to do
+- login username is case sensitive which is annoying
 
 ## How to run locally
 
