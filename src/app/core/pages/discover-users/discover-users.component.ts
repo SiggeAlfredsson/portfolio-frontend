@@ -18,7 +18,7 @@ export class DiscoverUsersComponent implements OnInit {
   filteredUsers: User[] = [];
   followingIds: number[] = [];
   
-  user: User | null = null; // the one that is logged in
+  loggedInUser: User | null = null; // the one that is logged in
   private userSubscription!: Subscription;
 
   constructor(private userService: UserService, private router: Router, private authService: AuthService) {}
@@ -36,7 +36,7 @@ export class DiscoverUsersComponent implements OnInit {
   fetchUsers(): void {
 
     this.userSubscription = this.authService.currentUser$.subscribe((user) => {
-      this.user = user;
+      this.loggedInUser = user;
     });
   
     if (this.authService.isAuth()) {
@@ -62,8 +62,8 @@ export class DiscoverUsersComponent implements OnInit {
           isFollowing: this.followingIds.includes(user.id)
         }));
   
-        if (this.user) {
-          this.filteredUsers = this.users.filter(user => user.username !== this.user!.username);
+        if (this.loggedInUser) {
+          this.filteredUsers = this.users.filter(user => user.username !== this.loggedInUser!.username);
         } else {
           this.filteredUsers = this.users;
         }
