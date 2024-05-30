@@ -4,6 +4,7 @@ TODO
 - comments have a set username, it needs to be changed to userId instead. couse this breaks if a username is changed..
 - edit images on a post
 - se list of stared and liked posts
+- Add delete profile option
 
 ## How to run locally
 
