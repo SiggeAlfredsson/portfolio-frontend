@@ -6,13 +6,6 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   margin-top: 40px;
 
-  img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-
   button {
     margin-right: 10px;
   }
@@ -87,6 +80,16 @@
   }
 }
 
+.post-header span:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.post-header a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .comments-section p {
   display: flex;
   justify-content: space-between;
@@ -153,5 +156,20 @@ button {
 
 .padding {
   width: 100%;
+}
+
+.userImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  // border: 2px solid #ddd;
+}
+
+.postImg {
+  max-width: 200px;
+  max-height: 200px;
+  cursor: pointer;
 }
 

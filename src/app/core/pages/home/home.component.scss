@@ -1,84 +1,102 @@
 /* home.component.scss */
 .post-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .post-card {
-    width: 90%;
-    max-width: 600px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 15px;
-    transition: box-shadow 0.3s ease;
-  
-    &:hover {
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-  }
-  
-  .post-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  
-    h2 {
-      margin: 0;
-      color: #333;
-    }
-  
-    .post-date {
-      font-size: 0.85rem;
-      color: #666;
-    }
-  }
-  
-  .post-description {
-    font-size: 1rem;
-    line-height: 1.4;
-    color: #444;
-    margin-top: 10px;
-  }
-  
-  .post-interactions {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 15px;
-  
-    .interaction {
-      display: flex;
-      align-items: center;
-      margin-right: 20px;
-      cursor: pointer;
-  
-      mat-icon {
-        margin-right: 5px;
-      }
-    }
-  }
-  
-  .post-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  
-    button {
-      padding: 6px 12px;
-    }
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
 
-  .padding {
-    width: 53%;
+.post-card {
+  width: 90%;
+  max-width: 600px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 15px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    color: #333;
   }
 
-  img {
-    max-width: 200px;
-    max-height: 200px;
+  .post-date {
+    font-size: 0.85rem;
+    color: #666;
+  }
+}
+
+.post-header span:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.post-header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-description {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #444;
+  margin-top: 10px;
+}
+
+.post-interactions {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 15px;
+
+  .interaction {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
     cursor: pointer;
+
+    mat-icon {
+      margin-right: 5px;
+    }
   }
+}
+
+.post-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+
+  button {
+    padding: 6px 12px;
+  }
+}
+
+.padding {
+  width: 53%;
+}
+
+img {
+  max-width: 200px;
+  max-height: 200px;
+  cursor: pointer;
+}
+
+.userImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  // border: 2px solid #ddd;
+}

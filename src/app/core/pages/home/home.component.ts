@@ -61,6 +61,9 @@ export class HomeComponent implements OnInit {
       this.notEmptyPost = !!res.content.length;
       this.page++;
       this.posts.forEach((post) => {
+        this.pictureService.getUserPicture(post.userId).subscribe(blob => {
+          post.userImageUrl = URL.createObjectURL(blob);
+        });
         this.userService.getUserById(post.userId).subscribe((user) => {
           post.username = user.username;
         });
@@ -107,7 +110,9 @@ export class HomeComponent implements OnInit {
 
         // now it loads for all images but should only load for new, to lazy rn to fix
         this.posts.forEach((post) => {
-
+          this.pictureService.getUserPicture(post.userId).subscribe(blob => {
+            post.userImageUrl = URL.createObjectURL(blob);
+          });
           this.userService.getUserById(post.userId).subscribe((user) => {
             post.username = user.username;
           });

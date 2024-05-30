@@ -1,9 +1,18 @@
 <div class="post-container">
   <div *ngFor="let post of posts" class="post-card">
     <div class="post-header">
-      <span
-        ><small> {{ post.username }}'s Post </small></span
-      >
+      <a [href]="'/user/' + post.username">
+        <span href>
+          <img
+            class="userImg"
+            *ngIf="post.userImageUrl"
+            [src]="post.userImageUrl"
+            alt="User Image"
+          />
+          <small class="post-user"> {{ post.username }}'s Post </small>
+        </span>
+      </a>
+
       <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
     </div>
     <h2>{{ post.title }}</h2>

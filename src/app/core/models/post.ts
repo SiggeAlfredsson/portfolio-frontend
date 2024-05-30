@@ -7,6 +7,8 @@ export interface Post {
   private: boolean;
   createdAt: Date;
   username: string;
+  userImageUrl?: string;
+
   userId: number;
   picturesIds: number[];
   
@@ -14,5 +16,6 @@ export interface Post {
   stars: number[];
 
   comments: Comment[],
+
 
 }

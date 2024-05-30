@@ -76,6 +76,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       .getPostById(this.postId!)
       .pipe(take(1))
       .subscribe((post) => {
+        this.pictureService.getUserPicture(post.userId).subscribe(blob => {
+          post.userImageUrl = URL.createObjectURL(blob);
+        });
         this.userService.getUserById(post.userId).subscribe((user) => {
           post.username = user.username;
         });

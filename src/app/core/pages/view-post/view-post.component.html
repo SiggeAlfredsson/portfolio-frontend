@@ -1,6 +1,16 @@
 <div class="post-container" *ngIf="post">
   <div class="post-header">
-    <span>{{ post.username }}'s Post </span>
+    <a [href]="'/user/' + post.username">
+      <span href>
+        <img
+          class="userImg"
+          *ngIf="post.userImageUrl"
+          [src]="post.userImageUrl"
+          alt="User Image"
+        />
+        <small class="post-user"> {{ post.username }}'s Post </small>
+      </span>
+    </a>
     <span class="post-date">{{ post.createdAt | date : "medium" }}</span>
     <span *ngIf="canModifyPost()">
       <mat-icon
@@ -44,7 +54,7 @@
   </div>
 
   <div *ngFor="let image of images">
-    <img [src]="image" (click)="openImageDialog(image)" alt="Post Image" />
+    <img class="postImg" [src]="image" (click)="openImageDialog(image)" alt="Post Image" />
   </div>
 
   <div class="post-interactions">
