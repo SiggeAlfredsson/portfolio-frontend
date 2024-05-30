@@ -6,11 +6,13 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../../environments/environment';
 import { PictureService } from '../../services/picture.service';
+import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile-dialog',
   templateUrl: './edit-profile-dialog.component.html',
-  styleUrls: ['./edit-profile-dialog.component.scss'] // Corrected property name
+  styleUrls: ['./edit-profile-dialog.component.scss']
 })
 export class EditProfileDialogComponent implements OnInit {
   apiUrl: string = environment.pictureApi;
@@ -27,6 +29,7 @@ export class EditProfileDialogComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private pictureService: PictureService,
+    private router: Router // Inject Router service
   ) {
     this.postForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -43,31 +46,46 @@ export class EditProfileDialogComponent implements OnInit {
 
   closeModal() {
     this.close.emit();
+    this.updateUrl();
   }
 
   onSubmit() {
     if (this.postForm.valid) {
       this.user.username = this.postForm.get('username')?.value;
       this.user.description = this.postForm.get('description')?.value;
-
+  
+      let updateUserPictureObservable;
       if (this.file) {
-        this.pictureService.updateUserPicture(this.user.id, this.file).subscribe(()=> {
-          this._snackBar.open('Profile updated successfully!', 'Close', {
-            duration: 3000
-          });    
-            this.closeModal();
-          })
+        updateUserPictureObservable = this.pictureService.updateUserPicture(this.user.id, this.file);
+      } else {
+        updateUserPictureObservable = of(null);
       }
-
-      this.userService.updateUser(this.user).subscribe(()=> {
-      this._snackBar.open('Profile updated successfully!', 'Close', {
-        duration: 3000
-      });    
-        this.closeModal();
-      })
-      // add error handling
+  
+      updateUserPictureObservable.subscribe({
+        next: () => {
+          this.userService.updateUser(this.user).subscribe({
+            next: () => {
+              this._snackBar.open('Profile updated successfully!', 'Close', {
+                duration: 3000
+              });
+              this.closeModal();
+            },
+            error: (err) => {
+              this._snackBar.open(`Failed to update profile: ${err.message}`, 'Close', {
+                duration: 3000
+              });
+            }
+          });
+        },
+        error: (err) => {
+          this._snackBar.open(`Failed to update picture: ${err.message}`, 'Close', {
+            duration: 3000
+          });
+        }
+      });
     }
   }
+  
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -86,5 +104,10 @@ export class EditProfileDialogComponent implements OnInit {
   onUploadPhotosClick(event: Event, fileInput: HTMLInputElement) {
     event.preventDefault();
     fileInput.click();
-    }
+  }
+
+  private updateUrl() {
+    const encodedUsername = encodeURIComponent(this.user.username);
+    this.router.navigate([`/user/${encodedUsername}`]);
+  }
 }
