@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { PictureService } from '../../services/picture.service';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -17,12 +18,15 @@ export class EditProfileDialogComponent implements OnInit {
   @Input() user!: User;
   @Output() close = new EventEmitter<void>();
   postForm: FormGroup;
+  file?: File;
+  imagePreview: string | ArrayBuffer | null = null; // Single preview
 
   constructor(
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private userService: UserService,
     private authService: AuthService,
+    private pictureService: PictureService,
   ) {
     this.postForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -46,6 +50,15 @@ export class EditProfileDialogComponent implements OnInit {
       this.user.username = this.postForm.get('username')?.value;
       this.user.description = this.postForm.get('description')?.value;
 
+      if (this.file) {
+        this.pictureService.updateUserPicture(this.user.id, this.file).subscribe(()=> {
+          this._snackBar.open('Profile updated successfully!', 'Close', {
+            duration: 3000
+          });    
+            this.closeModal();
+          })
+      }
+
       this.userService.updateUser(this.user).subscribe(()=> {
       this._snackBar.open('Profile updated successfully!', 'Close', {
         duration: 3000
@@ -56,7 +69,22 @@ export class EditProfileDialogComponent implements OnInit {
     }
   }
 
-  editProfilePicture() {
-    // Implement logic for editing the profile picture
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.file = file;
+
+      // Create a URL for the selected file to use for preview
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
+
+  onUploadPhotosClick(event: Event, fileInput: HTMLInputElement) {
+    event.preventDefault();
+    fileInput.click();
+    }
 }

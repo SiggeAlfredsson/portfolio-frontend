@@ -14,6 +14,10 @@
 .profile-picture {
   width: 120px;
   height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #ddd;
   border-radius: 60px;
   margin-right: 20px;
 }

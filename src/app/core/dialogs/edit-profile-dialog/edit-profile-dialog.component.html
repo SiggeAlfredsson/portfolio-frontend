@@ -1,19 +1,34 @@
 <div class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <h2>Edit Profile</h2>
-      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>Edit Profile</h2>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
 
-        <div class="form-group">
-            <img
-            [src]="apiUrl + '/pictures/user/' + user.id"
-            alt="user picture"
-              class="profile-picture"
-            />
-            <button mat-raised-button color="primary" type="button" (click)="editProfilePicture()">Upload Pciture</button>
-          </div>
-
-        <div class="sean">
+        <img
+          *ngIf="!file"
+          [src]="apiUrl + '/pictures/user/' + user.id"
+          alt="user picture"
+          class="profile-picture"
+        />
+        <img *ngIf="file" [src]="imagePreview" alt="profile-picture" class="profile-picture" >
+        <input
+          type="file"
+          multiple
+          (change)="onFileSelected($event)"
+          hidden
+          #fileInput
+        />
+        <button
+          mat-raised-button
+          color="primary"
+          class="upload-photo-btn"
+          (click)="onUploadPhotosClick($event, fileInput)"
+        >
+          Upload Photos
+        </button>
+      </div>
+      <div class="sean">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" required />
@@ -21,12 +36,17 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" class="description"></textarea>
+          <textarea
+            matInput
+            formControlName="description"
+            class="description"
+          ></textarea>
         </mat-form-field>
       </div>
-        <button mat-raised-button color="warn" (click)="closeModal()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-raised-button color="warn" (click)="closeModal()">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
     </form>
-    </div>
   </div>
-  
+</div>
