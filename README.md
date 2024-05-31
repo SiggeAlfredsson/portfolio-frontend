@@ -1,6 +1,7 @@
 # PortfolioFrontend
 
 TODO
+- Should update styling in user list dialog, looks meh
 - See stared post and navigate to them
 - comments have a set username, it needs to be changed to userId instead. couse this breaks if a username is changed..
 - edit images on a post
