@@ -11,6 +11,9 @@ TODO
 
 ## How to run locally
 
+Need to have BE up & running. See
+https://github.com/SiggeAlfredsson/portfolio-backend
+
 Angular Cli install
 ```bash
 npm install -g @angular/cli
