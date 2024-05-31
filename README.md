@@ -112,10 +112,12 @@ ng serve --host 0.0.0.0 --port 9999 --configuration=production
 │   ├── environment.prod.ts
 │   └── environment.ts
 ├── favicon.ico
+├── icon.webp
 ├── index.html
 ├── main.ts
 ├── styles.scss
 ├── theme.palette.scss
 └── theme.scss
+
 
 ```
